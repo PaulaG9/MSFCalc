@@ -7,5 +7,5 @@ admin.site.register(Disease)
 
 @admin.register(Pharmacy)
 class PharmacyAdmin(admin.ModelAdmin):
-    readonly_fields=['forecasted_amount']
-    list_display=['medicine_code','medicine_name','dosage','frequency', 'patients', 'forecasted_amount']
+    readonly_fields=['forecasted_amount','flag2']
+    list_display=['medicine_code','medicine_name','frequency', 'patients', 'forecasted_amount', 'flagger']

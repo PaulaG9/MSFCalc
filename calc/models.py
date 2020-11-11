@@ -42,43 +42,43 @@ class Pharmacy(models.Model):
     medicine_code=models.CharField(max_length=50)
     medicine_name=models.CharField(max_length=10000, null=True)
     disease_medicine=models.ManyToManyField(Disease)
-    dosage=models.FloatField() #replace to avoid confusion 
     frequency=models.IntegerField()
     attrition_rate=models.FloatField()
     patients=models.IntegerField()
     six_mth_consumption=models.IntegerField()
-    three_mth_consumption=models.IntegerField()
-    last_order=models.IntegerField()
-    
+    three_mth_consumption=models.IntegerField(blank=True, null=True)
+    last_order=models.IntegerField()  
+    flag2=models.BooleanField(default=False)
    
     #also include historic data fields
     
     @property
     def forecasted_amount(self):
-        return self.dosage* self.frequency*self.patients * (1-self.attrition_rate)
+        return self.frequency*self.patients * (1-self.attrition_rate)
 
     def __str__(self):
         return str(self.medicine_name)
         
     # added method to allow consumptioon comparison - not sure how this should be incorporated into forecasted_amount
     # maybe we need to first compare consumption and then add a correction factor to the forecast as opposed to the other way around
-        
-    # def compareConsumption(self,six_mth_consumption, three_mth_consumption, last_order, forecasted_amount):
-    #     flag=False
-    #     if self.forecasted_amount/self.six_mth_consumption>1:
-    #         #set flag to True - pop up a banner that says "check consumption tool":
-    #         self.flag=True
-    #     elif self.forecasted_amount/self.three_mth_consumption>1:
-    #         #...do something else
-    #         pass
 
-    #     else:
-    #         # do something more
-    #         pass
-    #     return self.flag
-    flat=compareConsumption(three_mth_consumption,six_mth_consumption,last_order)
-    #define forecasted amount based on flag
+    @property
+    def flagger(self):
+        self.flag=False
+        if self.forecasted_amount/self.six_mth_consumption>1:
+            #set flag to True - pop up a banner that says "check consumption tool":
+            self.flag=True
+        elif self.forecasted_amount/self.three_mth_consumption>1:
+            #...do something else
+            pass
 
+        else:
+            # do something more
+            pass
+        return self.flag
+
+    flag2=flagger
+    
 class Patient(models.Model):
     # 
     pass
