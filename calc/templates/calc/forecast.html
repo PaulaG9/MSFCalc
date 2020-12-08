@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <title>Forecast</title>
+    {{ form.media.css }}
+    <style>
+        input, select {width: 100%}
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                {{forecast_form.num_patients.label_tag}}
+                {{forecast_form.num_patients}}
+                {{forecast_form.duration.label_tag}}
+                {{forecast_form.duration}}
+                {{forecast_form.monthly_increase.label_tag}}
+                {{forecast_form.monthly_increase}}
+                {{forecast_form.attrition_rate.label_tag}}
+                {{forecast_form.attrition_rate}}
+            </div>
+            <div class="col-md-9">
+                {% for item in queryset %}
+                    <div class="row">
+                        
+                        <div class="col-md-4">
+                        {{item.msf_code}}
+                        </div>
+                        <div class="col-md-4">
+                        {{item.supply_name}}
+                        </div>
+                        <div class="col-md-4">
+                        {{forecast_form.frequency.label_tag}}
+                        {{forecast_form.frequency}}
+                        </div>
+                        
+                    </div>              
+                {% endfor %}
+               
+            </div>
+        </div>
+    </div>
+    {{ form.media.js }}
+</body>
+{% endblock content %}

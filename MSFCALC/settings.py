@@ -32,7 +32,9 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_select2',
     'calc',
+    'home',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,6 +70,19 @@ TEMPLATES = [
         },
     },
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'calc_cache_table',
+    },
+    'select2': {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "calc_cache_table",
+        }
+}
+
+SELECT2_CACHE_BACKEND = 'select2'
 
 WSGI_APPLICATION = 'MSFCALC.wsgi.application'
 

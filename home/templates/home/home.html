@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <title>Home</title>
+    {{ form.media.css }}
+    <style>
+        input, select {width: 100%}
+    </style>
+</head>
+<style type="text/css">
+.home-page-styling{
+    margin:50px;
+    position:relative;
+}
+.jumbo-styling{
+    color:#EE0000;
+}
+</style>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="jumbo-styling">
+            <div class="container">
+                <h1 class="display-md-4">
+                    <strong>MSFCalc</strong>                         
+                </h1>
+            </div> 
+        </div>                
+        <div class="row">
+                <div class="col-md-12">
+                    <form action="{% url 'calc:forecast' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="home-page-styling"> 
+                                <div class="row">                                                                     
+                                    
+                                    {% for field in form %}
+                                    <div class="col-md-5"> 
+                                    {{ field }} 
+                                    </div>
+                                    {% endfor %}                          
+                                    
+                                    <div class="col-md-1">
+                                        <input type="submit" value="Search" class="btn btn-md btn-secondary"/>
+                                    </div>                        
+                                </div>               
+                                   
+                            </div>
+                        </div>
+                    </form>  
+                </div>
+            </div>
+    </div>
+
+    {{ form.media.js }}
+</body>
+    
+{% endblock content %}

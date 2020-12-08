@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Scenario, Disease, Pharmacy
+from .models import Scenario, Disease, Supply
 
 # Register your models here.
 admin.site.register(Scenario)
 admin.site.register(Disease)
 
-@admin.register(Pharmacy)
-class PharmacyAdmin(admin.ModelAdmin):
-    readonly_fields=['forecasted_amount','flag2']
-    list_display=['medicine_code','medicine_name','frequency', 'patients', 'forecasted_amount', 'flagger']
+@admin.register(Supply)
+class SupplyAdmin(admin.ModelAdmin):
+    readonly_fields=['forecasted_amount']
+    list_display=['msf_code','supply_name','frequency']

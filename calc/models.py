@@ -35,12 +35,12 @@ class Disease(models.Model):
     def __str__(self):
         return str(self.disease_name)
 
-class Pharmacy(models.Model):
+class Supply(models.Model):
     #define attributes here
-    medicine_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    supply_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     msf_code=models.CharField(max_length=50, verbose_name='MSF Code', null=True, blank=True)
-    medicine_name=models.CharField(max_length=10000, null=True, verbose_name='Description')
-    disease_medicine=models.ManyToManyField(Disease, verbose_name='Condition')
+    supply_name=models.CharField(max_length=10000, null=True, verbose_name='Description')
+    disease_supply=models.ManyToManyField(Disease, verbose_name='Condition')
     frequency=models.FloatField(default=1)
     attrition_rate=models.FloatField(default=0)
     min_dosage=models.FloatField(null=True, blank=True)
@@ -49,10 +49,11 @@ class Pharmacy(models.Model):
     essential_item=models.BooleanField(verbose_name='Essential NCD Item', null=True, blank=True)
     category=models.CharField(max_length=10000, choices=[('1','Medication'), ('2','Medical Equipment'), ('3','Medical Consumables'), ('4', 'Lab Equipment'), ('5','Lab Consumables')], blank=True, null=True)
     comments=models.CharField(max_length=10000, blank=True)
+    unit=models.CharField(max_length=5, blank=True, choices=[('1', 'mg'), ('2','tab')] )
     
     
     class Meta:
-        verbose_name_plural='Pharmacies'
+        verbose_name_plural='Supplies'
 
     @property
     def forecasted_amount(self):
@@ -66,6 +67,6 @@ class Pharmacy(models.Model):
             
 
     def __str__(self):
-        return str(self.medicine_name)
+        return str(self.supply_name)
   
 
