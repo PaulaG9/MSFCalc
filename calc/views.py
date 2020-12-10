@@ -65,30 +65,18 @@ def resultsView(request):
         for item in supply_list:        
             tlines=[]
             estimate=0
-            print(item)
             for key in context.keys():
-                print(key)
+                
                 if item.msf_code in key:
                    tlines.append(key.split('_')[len(key.split('_'))-2])
-            print(tlines)
+            
             for i in range(len(tlines)):
                 numpatients=int(context['num_patients_'+str(tlines[i])])
-                print(type(numpatients), numpatients)
                 duration=int(context['duration_'+str(tlines[i])])
-                print(type(duration), duration)
                 monincrease=int(context['monthly_increase_'+str(tlines[i])])
-                print(type(monincrease), monincrease)
                 attrrate=int(context['attrition_rate_'+str(tlines[i])])
-                print(type(attrrate),attrrate)
                 frequency=int(context['frequency_'+str(tlines[i])+'_'+item.msf_code])
-                print(type(frequency), frequency)
                 estimate=estimate + getEstimate(getNetPatients(numpatients, duration, monincrease, attrrate),duration, frequency)  
             supply_est[item]=estimate
-
-        print(supply_list)
-        print(supply_est)
-        
-        #context['num_patients']=num_patients
-        # context['frequency']=frequency
     
         return render(request, 'calc/results.html', {'supply_list':supply_list, 'supply_est':supply_est})
