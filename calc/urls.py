@@ -4,5 +4,6 @@ from .views import *
 app_name='calc'
 
 urlpatterns = [
-   path('', calculatorView, name='forecast'),
+   path('forecast/', calculatorView, name='forecast'),
+   path('results/', resultsView, name='results')
 ]

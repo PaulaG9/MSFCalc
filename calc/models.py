@@ -49,7 +49,7 @@ class Supply(models.Model):
     essential_item=models.BooleanField(verbose_name='Essential NCD Item', null=True, blank=True)
     category=models.CharField(max_length=10000, choices=[('1','Medication'), ('2','Medical Equipment'), ('3','Medical Consumables'), ('4', 'Lab Equipment'), ('5','Lab Consumables')], blank=True, null=True)
     comments=models.CharField(max_length=10000, blank=True)
-    unit=models.CharField(max_length=5, blank=True, choices=[('1', 'mg'), ('2','tab')] )
+    unit=models.CharField(max_length=5, blank=True, choices=[('mg', 'mg'), ('tab','tab')] )
     
     
     class Meta:
@@ -70,3 +70,20 @@ class Supply(models.Model):
         return str(self.supply_name)
   
 
+class TreatmentLine(models.Model):
+    tline_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    tline_disease=models.ForeignKey(Disease, verbose_name='Condition', on_delete=models.PROTECT)
+    tline_name=models.CharField(max_length=10000, null=True, verbose_name='Treatment Line Name')    
+    tline_supply=models.ManyToManyField(Supply, verbose_name='Supply')
+
+    def __str__(self):
+        return str(self.tline_name)
+
+    def get_supplies(self):
+        return [supply.supply_name for supply in self.tline_supply.all()]
+    get_supplies.short_description='Supplies'
+    
+    def t_name(self):
+        return str(self.tline_disease) +'-' +self.tline_name
+    t_name.short_description='Treatment Line Name'
+   

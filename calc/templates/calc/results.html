@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <title>Results</title>
+    {{ form.media.css }}
+    <style>
+        input, select {width: 100%}
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <div class="container">
+        <div class="row">
+            <p>
+
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <table class="table table-responsive-md">
+                        <thead class="thead-light">
+                            <tr> 
+                                <th scope="col">MSF Code</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Unit</th>
+                                <th scope="col">Result</th>
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            {% for item in supply_list %}
+                                {% for x,y in supply_est.items %}
+                                    {% if item == x %} 
+                                        <tr>           
+                                            <th scope="row">{{item.msf_code}}</th>     
+                                            <td>{{item.supply_name}}</td>
+                                            <td>{{item.unit}} </td>    
+                                            <td>{{y}}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}                        
+                        </tbody>                         
+                    </table> 
+                </div>                              
+            </div>
+        </div>
+
+    </div>
+    
+    
+    {{ form.media.js }}
+</body>
+{% endblock content %}

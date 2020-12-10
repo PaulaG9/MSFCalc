@@ -9,40 +9,133 @@
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-3">
-                {{forecast_form.num_patients.label_tag}}
-                {{forecast_form.num_patients}}
-                {{forecast_form.duration.label_tag}}
-                {{forecast_form.duration}}
-                {{forecast_form.monthly_increase.label_tag}}
-                {{forecast_form.monthly_increase}}
-                {{forecast_form.attrition_rate.label_tag}}
-                {{forecast_form.attrition_rate}}
-            </div>
-            <div class="col-md-9">
-                {% for item in queryset %}
+    <div class="col-md-12">
+        <form action="{% url 'calc:results' %}" method="POST">
+            {% csrf_token %}
+            {% for item in queryset %}
+                {% with forloop.counter|stringformat:"s" as ct %}
                     <div class="row">
-                        
-                        <div class="col-md-4">
-                        {{item.msf_code}}
+                        <div class="col-md-1">
                         </div>
-                        <div class="col-md-4">
-                        {{item.supply_name}}
-                        </div>
-                        <div class="col-md-4">
-                        {{forecast_form.frequency.label_tag}}
-                        {{forecast_form.frequency}}
-                        </div>
-                        
-                    </div>              
-                {% endfor %}
-               
+                        <div class="col-md-10">             
+                            <div class="card">
+                                <div class="card-header">
+                                    {{item.t_name}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card" >
+                                            <div class="card-body">                    
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        {{forecast_form.num_patients.label_tag}} 
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        {% with "num_patients_"|add:ct as fname %}
+                                                        <input type="number" min=0 name={{fname}}>
+                                                        {% endwith %}
+                                                    </div>
+                                                </div>      
+                                                <div class="row"></div>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        {{forecast_form.duration.label_tag}}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        {% with "duration_"|add:ct as dname %}
+                                                        <input type="number" name={{dname}}>
+                                                        {% endwith %}
+                                                    </div>
+                                                </div>
+                                               <div class="row"></div>
+                                                <div class="row">
+                                                    <div class="col-md-8"> 
+                                                        {{forecast_form.monthly_increase.label_tag}}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        {% with "monthly_increase_"|add:ct as mthname %}
+                                                        <input type="number" name={{mthname}}>
+                                                        {% endwith %}
+                                                    </div>
+                                                </div> 
+                                                <div class="row"></div>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        {{forecast_form.attrition_rate.label_tag}}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        {% with "attrition_rate_"|add:ct as atname %}
+                                                        <input type="number" name={{atname}}>
+                                                        {% endwith %}
+                                                    </div>
+                                                </div>                                                                      
+                                            </div>
+                                        </div>                    
+                                    </div>
+                                    <div class="col-md-9">
+                                        <!-- <div class="card" > -->
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">MSF Code</div>
+                                                            <div class="col-md-6">Description</div>
+                                                            <div class="col-md-1">Unit</div>
+                                                            <div class="col-md-2">{{forecast_form.frequency.label_tag}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">                                             
+                                                    {% for x in item.get_supplies %}                            
+                                                    <div class="col-md-12"> 
+                                                        {% for y in supplyqset%} 
+                                                            {% if y.supply_name == x %}
+                                                            <div class="row">
+                                                                <div class="col-md-3"> 
+                                                                    {{y.msf_code}}
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    {{y.supply_name}}
+                                                                </div>    
+                                                                <div class="col-md-1">
+                                                                    {{y.unit}} 
+                                                                </div>                                                                 
+                                                                <div class="col-md-2"> 
+                                                                    {% with "frequency_"|add:ct|add:"_"|add:y.msf_code as frname %}
+                                                                    <input type="number" name={{frname}}>
+                                                                    {% endwith %}                                                                                                                                           
+                                                                </div>  
+                                                            </div>                                             
+                                                            {% endif %}
+
+                                                        {% endfor %}                                            
+                                                    </div>
+                                                
+                                                     
+                                                    {% endfor %}
+                                                </div> 
+                                            </div>
+                                        <!-- </div>  -->
+                                    </div>  
+                                </div> 
+                            </div>
+                        </div>             
+                    
+                    </div> 
+                    <div><p></p></div>  
+                {% endwith %}                         
+            {% endfor %}
+            
+            <div class="row">
+                <div class="col-md-10"></div>
+                <div class='col-md-1'>
+                    <input type="submit" class="btn btn-md btn-primary" value="Estimate" name="estimate">
+                </div> 
             </div>
-        </div>
-    </div>
-    {{ form.media.js }}
+                                     
+        </form>     
+       
+    </div>    
+      {{ form.media.js }}
 </body>
 {% endblock content %}
