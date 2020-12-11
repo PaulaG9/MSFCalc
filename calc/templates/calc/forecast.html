@@ -9,14 +9,13 @@
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <div class="col-md-12">
+    <div class="row">
         <form action="{% url 'calc:results' %}" method="POST">
             {% csrf_token %}
             {% for item in queryset %}
                 {% with forloop.counter|stringformat:"s" as ct %}
-                    <div class="row">
-                        <div class="col-md-1">
-                        </div>
+                    <div class="row">  
+                        <div class="col-md-1"></div>                      
                         <div class="col-md-10">             
                             <div class="card">
                                 <div class="card-header">
@@ -43,7 +42,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         {% with "duration_"|add:ct as dname %}
-                                                        <input type="number" name={{dname}}>
+                                                        <input type="number" min=0 name={{dname}}>
                                                         {% endwith %}
                                                     </div>
                                                 </div>
@@ -54,7 +53,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         {% with "monthly_increase_"|add:ct as mthname %}
-                                                        <input type="number" name={{mthname}}>
+                                                        <input type="number" min=0 name={{mthname}}>
                                                         {% endwith %}
                                                     </div>
                                                 </div> 
@@ -65,7 +64,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         {% with "attrition_rate_"|add:ct as atname %}
-                                                        <input type="number" name={{atname}}>
+                                                        <input type="number" min=0 name={{atname}}>
                                                         {% endwith %}
                                                     </div>
                                                 </div>                                                                      

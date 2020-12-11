@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import FormView
-from calc import forms, models
+from django_pandas.io import read_frame
+from . import forms
 from home.views import homeView
 from home.forms import SearchForm
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from calc.models import Disease, Supply, TreatmentLine
+from calc.functions import getNetPatients, getEstimate
 import numpy as np
+import pandas as pd
+import json
 
 # Create your views here.
 def calculatorView(request):
-    
+        
     if request.method=='POST': 
         
         search_form=SearchForm(request.POST)
@@ -31,52 +34,68 @@ def calculatorView(request):
         return render (request, 'calc/forecast.html', )
 
 
-def resultsView(request):    
+def resultsView(request): 
+    global df3   
     if request.method=='POST':
+        other_context={}
         context={}
-
         for k, v in request.POST.items():
-            context[k]=v
+            other_context[k]=v
                    
         supply=[]
-        for key in context.keys():
+        for key in other_context.keys():
            if "frequency" in key:
                supply.append(key.split("_")[len(key.split('_'))-1])             
         
         unique_drugs=np.unique(np.array(supply))
-        supply_list=Supply.objects.filter(msf_code__in=unique_drugs)
-
-        def getNetPatients(numpatients, duration, monincrease, attrrate):
-            if duration/30>1:
-                final_mth_patients=numpatients+(round(duration/30)-1)*(monincrease-attrrate)
-                net_patients=((numpatients+final_mth_patients)*round(duration/30))/2
-            else:
-                net_patients=numpatients+(monincrease-attrrate)
-            
-            return net_patients
-        
-        def getEstimate(net_patients, duration, frequency):
-
-            estimate=net_patients * duration * frequency
-
-            return estimate
-
+        supply_list=Supply.objects.filter(msf_code__in=unique_drugs)     
+      
         supply_est={}
         for item in supply_list:        
             tlines=[]
             estimate=0
-            for key in context.keys():
-                
+            for key in other_context.keys():                
                 if item.msf_code in key:
                    tlines.append(key.split('_')[len(key.split('_'))-2])
             
-            for i in range(len(tlines)):
-                numpatients=int(context['num_patients_'+str(tlines[i])])
-                duration=int(context['duration_'+str(tlines[i])])
-                monincrease=int(context['monthly_increase_'+str(tlines[i])])
-                attrrate=int(context['attrition_rate_'+str(tlines[i])])
-                frequency=int(context['frequency_'+str(tlines[i])+'_'+item.msf_code])
-                estimate=estimate + getEstimate(getNetPatients(numpatients, duration, monincrease, attrrate),duration, frequency)  
-            supply_est[item]=estimate
+            try:
+                for i in range(len(tlines)):
+                    numpatients=int(other_context['num_patients_'+str(tlines[i])])
+                    duration=int(other_context['duration_'+str(tlines[i])])
+                    monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
+                    attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
+                    frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
+                    estimate=estimate + getEstimate(getNetPatients(numpatients, duration, monincrease, attrrate),duration, frequency) 
+            except:
+                pass
+
+            supply_est[item.msf_code]=estimate     
+       
+
+        df1 = read_frame(supply_list, fieldnames=['msf_code', 'supply_name', 'unit']) 
+        df2=pd.DataFrame(list(supply_est.items()), columns=['msf_code', 'estimated_needs'])
+        df3=df1.join(df2.set_index('msf_code'), on='msf_code')
+
+       
+        json_records = df3.reset_index().to_json(orient ='records') 
+        data = [] 
+        data = json.loads(json_records)         
+        context ['d']=data    
+
+        request.session['dt']=data
+
+        return render(request, 'calc/results.html', context) 
+
+def tableExport(request):
+    from django.http import HttpResponse
+        
+    df=pd.DataFrame(request.session['dt'])
     
-        return render(request, 'calc/results.html', {'supply_list':supply_list, 'supply_est':supply_est})
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Test.xlsx"'
+
+    df.to_excel(response,index=False)
+    return response
+
+
+        

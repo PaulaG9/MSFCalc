@@ -7,8 +7,7 @@ admin.site.register(Disease)
 
 @admin.register(Supply)
 class SupplyAdmin(admin.ModelAdmin):
-    readonly_fields=['forecasted_amount']
-    list_display=['msf_code','supply_name','frequency']
+    list_display=['msf_code','supply_name','essential_item']
     
 
 @admin.register(TreatmentLine)

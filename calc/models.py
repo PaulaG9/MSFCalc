@@ -41,30 +41,19 @@ class Supply(models.Model):
     msf_code=models.CharField(max_length=50, verbose_name='MSF Code', null=True, blank=True)
     supply_name=models.CharField(max_length=10000, null=True, verbose_name='Description')
     disease_supply=models.ManyToManyField(Disease, verbose_name='Condition')
-    frequency=models.FloatField(default=1)
-    attrition_rate=models.FloatField(default=0)
+    #frequency=models.FloatField(default=1)
+    #attrition_rate=models.FloatField(default=0)
     min_dosage=models.FloatField(null=True, blank=True)
     max_dosage=models.FloatField(null=True, blank=True)
-    num_patients=models.FloatField(verbose_name='Number of Patients', default=1)
+    #num_patients=models.FloatField(verbose_name='Number of Patients', default=1)
     essential_item=models.BooleanField(verbose_name='Essential NCD Item', null=True, blank=True)
     category=models.CharField(max_length=10000, choices=[('1','Medication'), ('2','Medical Equipment'), ('3','Medical Consumables'), ('4', 'Lab Equipment'), ('5','Lab Consumables')], blank=True, null=True)
     comments=models.CharField(max_length=10000, blank=True)
-    unit=models.CharField(max_length=5, blank=True, choices=[('mg', 'mg'), ('tab','tab')] )
+    unit=models.CharField(max_length=7, blank=True, choices=[('mg', 'mg'), ('tab','tab'), ('ampules', 'ampules'), ('vial', 'vial'), ('ml', 'ml')] )
     
     
     class Meta:
         verbose_name_plural='Supplies'
-
-    @property
-    def forecasted_amount(self):
-        if self.frequency==0  or self.num_patients==0 or self.attrition_rate==0:
-            return 0
-        else:
-            try:
-                return self.frequency*self.num_patients * (1-self.attrition_rate)
-            except ValueError as e:
-                print (e)
-            
 
     def __str__(self):
         return str(self.supply_name)
