@@ -6,7 +6,10 @@ def homeView(request):
     
     if request.method=='POST':
         form=forms.SearchForm(request.POST)
+        country_form=forms.CountrySearchForm(request.POST)
+        
     else:
         form=forms.SearchForm()
- 
-    return render(request, 'home/home.html', {'form': form})
+        country_form=forms.CountrySearchForm()
+
+    return render(request, 'home/home.html', {'form': form, 'countryform': country_form})

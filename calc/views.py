@@ -19,10 +19,10 @@ def calculatorView(request):
         search_form=SearchForm(request.POST)
         if search_form.is_valid():
             search_item=search_form.cleaned_data['disease_search']
-        #search_item=request.POST.get('disease_search')
+        # search_item=request.POST.get('disease_search')
         
         try:           
-            queryset=TreatmentLine.objects.filter(tline_disease__in=search_item)        
+            queryset=TreatmentLine.objects.filter(tline_disease__in=[search_item])        
             supply_qset=Supply.objects.all()
         except ObjectDoesNotExist:
             queryset=[]
@@ -66,8 +66,9 @@ def resultsView(request):
                     attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
                     estimate=estimate + getEstimate(getNetPatients(numpatients, duration, monincrease, attrrate),duration, frequency) 
-            except:
-                pass
+            except ValueError as e:
+                print (e)
+                next
 
             supply_est[item.msf_code]=estimate     
        
@@ -75,6 +76,7 @@ def resultsView(request):
         df1 = read_frame(supply_list, fieldnames=['msf_code', 'supply_name', 'unit']) 
         df2=pd.DataFrame(list(supply_est.items()), columns=['msf_code', 'estimated_needs'])
         df3=df1.join(df2.set_index('msf_code'), on='msf_code')
+        print(df1, df2, df3)
 
        
         json_records = df3.reset_index().to_json(orient ='records') 

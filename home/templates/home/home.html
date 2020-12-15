@@ -17,42 +17,89 @@
 }
 </style>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
-    <div class="jumbotron jumbotron-fluid text-center">
-        <div class="jumbo-styling">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
             <div class="container">
-                <h1 class="display-md-4">
-                    <strong>MSFCalc</strong>                         
-                </h1>
-            </div> 
-        </div>                
-        <div class="row">
-                <div class="col-md-12">
-                    <form action="{% url 'calc:forecast' %}" method="POST">
-                        {% csrf_token %}
+                <div class="row">
+                    <h6 class="display-md-2">
+                        <strong>Estimate Medical Supplies</strong>                         
+                    </h6>
+                    <br>                
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid et molestias voluptate perspiciatis asperiores nobis voluptatum beatae temporibus, veritatis sed doloribus unde, nulla, magnam molestiae saepe iure reiciendis nisi optio!</p>
+                </div>
+                <form action="{% url 'calc:forecast' %}" method="POST">
+                    {% csrf_token %}
                         <div class="form-group">
-                            <div class="home-page-styling"> 
-                                <div class="row">                                                                     
-                                    
-                                    {% for field in form %}
-                                    <div class="col-md-5"> 
-                                    {{ field }} 
+                            <div class="row">   
+                                <div class="col-md-10"> 
+                                    <div class="row">
+                                        <strong>{{form.disease_search.label_tag}}</strong>
                                     </div>
-                                    {% endfor %}                          
-                                    
-                                    <div class="col-md-1">
-                                        <input type="submit" value="Search" class="btn btn-md btn-secondary"/>
-                                    </div>                        
-                                </div>               
-                                   
+                                    <div class="row">
+                                        {{form.disease_search.help_text}}
+                                    </div>
+                                    <div class="row">                                        
+                                        {{form.disease_search}} 
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10"></div>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Search" class="btn btn-md btn-secondary"/>
+                                </div> 
                             </div>
                         </div>
-                    </form>  
+                </form>
+                <!-- <form action="{% url 'home:home' %}" method="get">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="row">   
+                            <div class="col-md-10"> 
+                                <div class="row">
+                                    <strong>{{countryform.country_search.label_tag}}</strong>
+                                </div>
+                                <div class="row">
+                                    {{countryform.country_search.help_text}}
+                                </div>
+                                <div class="row">
+                                    {{countryform.country_search}}
+                                </div>
+                            </div>                                                       
+                        </div>
+                    </div>
+                </form>    -->
+            </div> 
+        </div>
+        <div class="col-md-5">
+            <div class="container">
+                <h6 class="display-md-2">
+                    <strong>Guidelines for estimating patient numbers</strong>                         
+                </h6>
+                <br>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, sunt excepturi! Quas error possimus ipsam accusamus! Dicta eligendi fuga ratione iusto ipsa blanditiis, accusamus consequuntur maiores veritatis temporibus vel error!
+                    </p>
+                <br>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, animi soluta. Reiciendis corporis consequatur, veritatis illo dicta aperiam nostrum unde labore libero iste, quis hic vel laboriosam quod ipsum atque.
+                    </p>
+                <br>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi id ipsum esse perferendis, quos nostrum dolorem praesentium rem sequi, iusto numquam laboriosam maiores deserunt. Perferendis cupiditate doloribus fuga officiis aliquid.
+                    </p>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://ourworldindata.org/grapher/diabetes-prevalence" loading="lazy" style="width: 100%; height:350px"></iframe>
                 </div>
             </div>
-    </div>
-
+        </div>
+        <div class="col-md-1"></div>
+    </div>  
+    
+    
     {{ form.media.js }}
 </body>
     
