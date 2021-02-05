@@ -22,8 +22,8 @@ def calculatorView(request):
         # search_item=request.POST.get('disease_search')
         
         try:           
-            queryset=TreatmentLine.objects.filter(tline_disease__in=[search_item])        
-            supply_qset=Supply.objects.all()
+            queryset=TreatmentLine.objects.filter(tline_disease__in=[search_item]).order_by('tline_id')        
+            supply_qset=Supply.objects.all().order_by('supply_id')
         except ObjectDoesNotExist:
             queryset=[]
               
@@ -48,7 +48,7 @@ def resultsView(request):
                supply.append(key.split("_")[len(key.split('_'))-1])             
         
         unique_drugs=np.unique(np.array(supply))
-        supply_list=Supply.objects.filter(msf_code__in=unique_drugs)     
+        supply_list=Supply.objects.filter(msf_code__in=unique_drugs).order_by('supply_name')     
       
         supply_est={}
         for item in supply_list:        
@@ -63,9 +63,9 @@ def resultsView(request):
                     numpatients=int(other_context['num_patients_'+str(tlines[i])])
                     duration=int(other_context['duration_'+str(tlines[i])])
                     monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
-                    attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
+                    # attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
-                    estimate=estimate + getEstimate(getNetPatients(numpatients, duration, monincrease, attrrate),duration, frequency) 
+                    estimate=estimate + getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency) 
             except ValueError as e:
                 print (e)
                 next
@@ -98,6 +98,7 @@ def tableExport(request):
 
     df.to_excel(response,index=False)
     return response
+
 
 
         

@@ -1,0 +1,24 @@
+branch-defaults:
+  default:
+    environment: Msfcalc-dev-env
+  master:
+    environment: prod-env
+    group_suffix: null
+environment-defaults:
+  Msfcalc-dev-env:
+    branch: master
+    repository: null
+global:
+  application_name: MSFCALC_beta
+  branch: null
+  default_ec2_keyname: MSFCalc
+  default_platform: Python 3.7
+  default_region: eu-west-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  repository: null
+  sc: git
+  workspace_type: Application

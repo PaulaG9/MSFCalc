@@ -18,7 +18,16 @@
 </style>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
+    <!-- <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
+              </div>            
+        </div>        
+    </div> -->
+   
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-5">
@@ -27,8 +36,11 @@
                     <h6 class="display-md-2">
                         <strong>Estimate Medical Supplies</strong>                         
                     </h6>
-                    <br>                
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid et molestias voluptate perspiciatis asperiores nobis voluptatum beatae temporibus, veritatis sed doloribus unde, nulla, magnam molestiae saepe iure reiciendis nisi optio!</p>
+                    <br>     
+                    <p>
+                        To start your estimation start by typing the name of the NCD in the box below. After you've decided on the NCD press next.
+                    </p>           
+                    <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid et molestias voluptate perspiciatis asperiores nobis voluptatum beatae temporibus, veritatis sed doloribus unde, nulla, magnam molestiae saepe iure reiciendis nisi optio!</p> -->
                 </div>
                 <form action="{% url 'calc:forecast' %}" method="POST">
                     {% csrf_token %}
@@ -41,17 +53,22 @@
                                     <div class="row">
                                         {{form.disease_search.help_text}}
                                     </div>
-                                    <div class="row">                                        
-                                        {{form.disease_search}} 
+                                    <div class="row"> 
+                                        <div class="col-md-8">
+                                            {{form.disease_search}}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="submit" value="Next" class="btn btn-md btn-secondary"/>                                        
+                                        </div>   
                                     </div>
                                 </div> 
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-10"></div>
                                 <div class="col-md-2">
-                                    <input type="submit" value="Search" class="btn btn-md btn-secondary"/>
+                                    <input type="submit" value="Estimate" class="btn btn-md btn-secondary"/>
                                 </div> 
-                            </div>
+                            </div> -->
                         </div>
                 </form>
                 <!-- <form action="{% url 'home:home' %}" method="get">
