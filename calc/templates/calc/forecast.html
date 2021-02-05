@@ -56,20 +56,19 @@
                                                             {% endwith %}
                                                         </div>
                                                     </div>
-                                                <div class="row"></div>
-                                                    <div class="row">
-                                                        <div class="col-md-8"> 
-                                                            {{forecast_form.monthly_increase.label_tag}}                                                       
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            {% with "monthly_increase_"|add:ct as mthname %}
-                                                            <input type="number" id={{mthname}} min=0 name={{mthname}} data-toggle="tooltip" data-placement="top" title="What number of patients do you expect over the initial number of patients">
-                                                            {% endwith %}
-                                                        </div>
-                                                    </div> 
                                                     <div class="row"></div>
-                                                    
-                                                </div>
+                                                        <div class="row">
+                                                            <div class="col-md-8"> 
+                                                                {{forecast_form.monthly_increase.label_tag}}                                                       
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                {% with "monthly_increase_"|add:ct as mthname %}
+                                                                <input type="number" id={{mthname}} min=0 name={{mthname}} data-toggle="tooltip" data-placement="top" title="What number of patients do you expect over the initial number of patients">
+                                                                {% endwith %}
+                                                            </div>
+                                                        </div> 
+                                                        <div class="row"></div>
+                                                    </div>
                                             </div>                    
                                         </div>
                                         <div class="col-md-9">
@@ -113,9 +112,8 @@
                                                                     </div>
                                                                     <div class="col-md-1">
                                                                         {% with "result_"|add:ct|add:"_"|add:y.msf_code as resultid %}
-                                                                        <p name={{resultid}} id={{resultid}}></p>
-                                                                        {% endwith %}
-                                                                        
+                                                                        <p name={{resultid}} id={{resultid}} style="font-weight: bold;"></p>
+                                                                        {% endwith %}                                                                        
                                                                     </div>
                                                                 </div>                                 
                                                                 {% endif %}
