@@ -1,4 +1,3 @@
 {
-    "git.ignoreLimitWarning": true,
-    "github.gitAuthentication": false
+    "git.ignoreLimitWarning": true
 }
