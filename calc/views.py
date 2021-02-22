@@ -60,7 +60,7 @@ def resultsView(request):
             
             try:
                 for i in range(len(tlines)):
-                    numpatients=int(other_context['num_patients_'+str(tlines[i])])
+                    numpatients=int(other_context['num_patients_'+str(tlines[i])+'_'+item.msf_code])
                     duration=int(other_context['duration_'+str(tlines[i])])
                     monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
                     # attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
