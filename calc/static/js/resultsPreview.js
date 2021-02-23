@@ -40,3 +40,22 @@ function getPreview(){
     }       
 }
 
+function putPatients(){
+    var formInst2=$('input[id^=patients_in_cohort]')
+    for (var z=1; z<formInst2.length+1; z++){
+        var patientsCohort=parseInt($('input#patients_in_cohort_' +z).val());
+        console.log(patientsCohort);
+        var patientsNum=$('[id^=num_patients_' + z+']');
+        for (var t=1; t<patientsNum.length+1; t++){
+            var txt=patientsNum.eq(t-1).attr("id");
+            var msfcode=txt.split("_")[3];
+            console.log(txt,msfcode)
+            var ratio=parseFloat($('p#patients_percentage_'+ z +'_'+msfcode).text());
+            console.log(ratio)
+            calculatedPatients=(ratio * patientsCohort)/100;
+            console.log(calculatedPatients )
+            patientsNum.eq(t-1).val(calculatedPatients);
+        }
+    }
+}
+

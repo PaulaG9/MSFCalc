@@ -14,7 +14,11 @@
     <script src={% static "js/resultsPreview.js" %}></script>
     <div class="row">
        
-            <div class="col-md-10"></div> 
+            <div class="col-md-9"></div> 
+            <div class="col-md-1">
+                <input type="submit" class="btn btn-md btn-primary" onclick="putPatients()" value="Patients" id="patients" name="patients">
+                <p></p>
+            </div> 
             <div class="col-md-1">
                 <input type="submit" class="btn btn-md btn-primary" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
                 <p></p>
@@ -132,7 +136,12 @@
                                                         </div>  
 
                                                         <div class="col-md-1">
-                                                            {{y.patients_percentage|mul:100|stringformat:"s"|add:"%"}}
+                                                            {% with "patients_percentage_"|add:ct|add:"_"|add:y.msf_code as patratio %}
+                                                                {% if y.patients_percentage %}
+                                                                <p name={{patratio}} id={{patratio}}>{{y.patients_percentage|mul:100|stringformat:"s"|add:"%"}}</p>
+                                                                {% endif %}
+                                                            {% endwith %}
+                                                            
                                                         </div> 
 
                                                         <div class="col-md-1">
@@ -143,7 +152,7 @@
 
                                                         <div class="col-md-1">
                                                             {% with "num_patients_"|add:ct|add:"_"|add:y.msf_code as fname %}
-                                                            <input type="number" min=0 name={{fname}} id={{fname}} placeholder=50>
+                                                            <input type="number" min=0 name={{fname}} id={{fname}}>
                                                             {% endwith %}
                                                         </div>
                                                      
