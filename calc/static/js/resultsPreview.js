@@ -8,8 +8,8 @@ function netPatients(numpatients, duration, monincrease){
     return net_patients;
 }
 
-function estResults(net_patients, duration, frequency){
-    return net_patients * duration * frequency;
+function estResults(net_patients, duration, frequency, units){
+    return net_patients * duration * frequency * units;
 }
 
 function getPreview(){
@@ -31,8 +31,10 @@ function getPreview(){
             console.log(frequency);
             var numpatients=parseInt($('input#num_patients_' + x +'_' + msfcode).val()); 
             console.log(numpatients);   
+            var units=parseInt($('input#unit_per_patient_'+ x + '_' + msfcode).val());
+            console.log(units)
 
-            estimate=estResults(netPatients(numpatients, duration, monincrease),duration, frequency);                 
+            estimate=estResults(netPatients(numpatients, duration, monincrease),duration, frequency, units);                 
             console.log(estimate);
 
             results.eq(i-1).text(estimate);

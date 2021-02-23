@@ -66,7 +66,10 @@ def resultsView(request):
                     # attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
                     #print(numpatients, duration, monincrease,frequency)
-                    estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency) 
+                    units=int(other_context['unit_per_patient_'+str(tlines[i])+'_'+item.msf_code])
+                   
+                    estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency, units) 
+
             except ValueError as e:
                 print (e)
                 next

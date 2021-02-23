@@ -8,9 +8,9 @@ def getNetPatients(numpatients, duration, monincrease):
                 net_patients=numpatients+monincrease            
             return net_patients
 
-def getEstimate(net_patients, duration, frequency):
+def getEstimate(net_patients, duration, frequency, units):
 
-            estimate=net_patients * duration * frequency
+            estimate=net_patients * duration * frequency * units
 
             return estimate
 

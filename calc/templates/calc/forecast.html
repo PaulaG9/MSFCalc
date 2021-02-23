@@ -16,7 +16,7 @@
        
             <div class="col-md-9"></div> 
             <div class="col-md-1">
-                <input type="submit" class="btn btn-md btn-primary" onclick="putPatients()" value="Patients" id="patients" name="patients">
+                <input type="submit" class="btn btn-md btn-primary" onclick="putPatients()" value="EstimatePatients" id="patients" name="patients">
                 <p></p>
             </div> 
             <div class="col-md-1">
@@ -107,7 +107,7 @@
                                                 <div class="row">
                                                     <div class="col-md-2">MSF Code</div>
                                                     <div class="col-md-4">Description</div>
-                                                    <div class="col-md-1">Daily Rec Dose</div>
+                                                    <div class="col-md-1" data-toggle="tooltip" data-placement="auto" title="Daily Recommended Dose">Units</div>
                                                     <div class="col-md-1">Patient Ratio</div>
                                                     <div class="col-md-1">{{forecast_form.unit_per_patient.label_tag}} </div>
                                                     <div class="col-md-1">{{forecast_form.num_patients.label_tag}} </div>
