@@ -41,15 +41,14 @@ class Supply(models.Model):
     msf_code=models.CharField(max_length=50, verbose_name='MSF Code', null=True, blank=True)
     supply_name=models.CharField(max_length=10000, null=True, verbose_name='Description')
     disease_supply=models.ManyToManyField(Disease, verbose_name='Condition')
-    #frequency=models.FloatField(default=1)
+    supply_frequency=models.CharField(max_length=10, blank=True, null=True, choices=[("0", "None"),("1", "1 x day"), ("2","2 x day"), (3,"3 x day"), (4, "4 x day"), (5, "5 x day")])
     #attrition_rate=models.FloatField(default=0)
-    min_dosage=models.FloatField(null=True, blank=True)
-    max_dosage=models.FloatField(null=True, blank=True)
-    #num_patients=models.FloatField(verbose_name='Number of Patients', default=1)
+    daily_recommended_dose=models.CharField(max_length=10, null=True, blank=True)
+    patients_percentage=models.FloatField(verbose_name='Percentage of Patients', null=True, blank=True)
     essential_item=models.BooleanField(verbose_name='Essential NCD Item', null=True, blank=True)
     category=models.CharField(max_length=10000, choices=[('1','Medication'), ('2','Medical Equipment'), ('3','Medical Consumables'), ('4', 'Lab Equipment'), ('5','Lab Consumables')], blank=True, null=True)
     comments=models.CharField(max_length=10000, blank=True)
-    unit=models.CharField(max_length=7, blank=True, choices=[('mg', 'mg'), ('tab','tab'), ('ampules', 'ampules'), ('vial', 'vial'), ('ml', 'ml')] )
+    unit=models.CharField(max_length=7, blank=True, choices=[('mg', 'mg'), ('tab','tab'), ('ampules', 'ampules'), ('vial', 'vial'), ('ml', 'ml'), ('IU', 'IU')] )
     
     
     class Meta:
