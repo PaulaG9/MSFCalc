@@ -29,33 +29,32 @@
                                             
                                         <div class="row">
                                             <div class="col-md-7">
-                                                <div class="btn-group" role="group" aria-label="Buttons">
+                                                <div class="btn-group" role="group" aria-label="TopButtons">
                                                 
                                                     <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#{{contentid}}" aria-expanded="true" aria-controls={{contentid}}>
                                                         Collapse
                                                     </button>
                                                 
-                                                    <button type="button" class="btn btn-md btn-success" data-toggle="popover" data-trigger="focus" title={{item.t_name}} data-content="Details about treatment line" data-placement="top">
+                                                    <button type="button" class="btn btn-md btn-outline-dark" data-toggle="popover" data-trigger="focus" title={{item.t_name}} data-content="Details about treatment line" data-placement="top">
                                                         {{item.t_name}}
                                                     </button>                                                    
                                                         
-                                                    <button type="button" class="btn btn-md btn-success" onclick="putPatients()" value="EstimatePatients" id="patients" name="patients">
+                                                    <!-- <button type="button" class="btn btn-md btn-success" onclick="putPatients()" value="EstimatePatients" id="patients" name="patients">
                                                         Estimate Patients
-                                                    </button>
+                                                    </button> -->
                                                 
-                                                    <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
+                                                    <!-- <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
                                                         Calculate
-                                                    </button>                                      
+                                                    </button>                                       -->
                                                 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4"></div>
+                                            <!-- <div class="col-md-4"></div>
                                             <div class="col-md-1">
                                                 <button class="btn btn-md btn-success" value="Next step" name="estimate">Next</button>
-                                            </div>
+                                            </div> -->
                                         </div>                                    
                                         <div class="row"><p></p></div>
-
                                         <div class="row">
                                             
                                             <div class="col-md-4">
@@ -98,9 +97,11 @@
                                                         {% with "patients_in_cohort_"|add:ct as chname %}
                                                         <div class="input-group bg-light">
                                                             <div class="input-group-prepend">
-                                                                <label class="input-group-text" for={{chname}}>
-                                                                    {{forecast_form.patients_in_cohort.label_tag}}
-                                                                </label>
+                                                                <button type="button" class="btn btn-md btn-light btn-outline-dark" data-toggle="tooltip" title="click me to see patient distribution" onclick="putPatients()" value="EstimatePatients" id={{chname}} name="patients">
+                                                                    <!-- <label class="input-group-text" for={{chname}}> -->
+                                                                        {{forecast_form.patients_in_cohort.label_tag}}
+                                                                    <!-- </label> -->
+                                                                </button>
                                                             </div>
                                                             <input type="number" style="height:auto" class="form-control" id={{chname}} min=0 name={{chname}}>
                                                         </div>
@@ -195,6 +196,22 @@
                                                 </div>
                                                 {% endfor %}
                                             </div> 
+                                            <div class="row"><p></p></div>
+                                            <div class="row">
+                                                <div class="col-md-10"></div>
+                                                <div class="col-md-2">
+                                                    <div class="btn-group" role="group" aria-label="BottomButtons">
+
+                                                        <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
+                                                            Calculate
+                                                        </button>      
+                                                        <button class="btn btn-md btn-dark" value="Next step" name="estimate">
+                                                            Next Step
+                                                        </button>                                                                   
+                                                    
+                                                    </div>
+                                                </div>
+                                            </div>
                                                     
                                         </div>
                                     </div>
