@@ -8,9 +8,11 @@ def getNetPatients(numpatients, duration, monincrease):
                 net_patients=numpatients+monincrease            
             return net_patients
 
-def getEstimate(net_patients, duration, frequency, units):
-
-            estimate=net_patients * duration * frequency * units
+def getEstimate(net_patients, duration, frequency, units, dose):
+            if not dose or 'ml' not in dose:
+                estimate=str(net_patients * duration * frequency * units) + ' tab'               
+            else:
+                estimate=str(net_patients * duration * frequency * units * 5) + ' ml'       
 
             return estimate
 

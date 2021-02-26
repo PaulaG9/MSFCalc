@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.shortcuts import render
 
 class ForecastForm(forms.Form):
-    num_patients=forms.IntegerField(label='Patients/drug', help_text='What is the number of patients you expect to have at the start of the programme?')
+    num_patients=forms.FloatField(label='Patients/drug', help_text='What is the number of patients you expect to have at the start of the programme?')
     duration=forms.ChoiceField(label='Duration in days', choices=[('1', '1 month'), ('2', '2 months'), ('3', '3 months'), ('6', '6 months')])
     monthly_increase=forms.IntegerField(label='Monthly increase', help_text='What increase do you expect to see in the number of patients. Please express the numbers in patient numbers')
     frequency=forms.ChoiceField(label="Frequency of intake", choices=Supply.supply_frequency.field.get_choices(include_blank=False))

@@ -8,8 +8,18 @@ function netPatients(numpatients, duration, monincrease){
     return net_patients;
 }
 
-function estResults(net_patients, duration, frequency, units){
-    return net_patients * duration * frequency * units;
+function estResults(net_patients, duration, frequency, units, dose){
+    if(dose.includes('ml')){
+        est_results=net_patients * duration * frequency * units* 5;
+        if(est_results){
+            return (est_results+ ' ml');
+        }        
+    }else{
+        est_results=net_patients * duration * frequency * units;
+        if(est_results){
+            return ( est_results+ ' tab');
+        }        
+    }    
 }
 
 function getPreview(){
@@ -29,12 +39,13 @@ function getPreview(){
             var msfcode=txt.split("_")[2]            
             var frequency=parseInt($('select#frequency_'+ x +'_' + msfcode).val()); 
             console.log(frequency);
-            var numpatients=parseInt($('input#num_patients_' + x +'_' + msfcode).val()); 
+            var numpatients=parseFloat($('input#num_patients_' + x +'_' + msfcode).val()); 
             console.log(numpatients);   
-            var units=parseInt($('input#unit_per_patient_'+ x + '_' + msfcode).val());
+            var units=parseFloat($('input#unit_per_patient_'+ x + '_' + msfcode).val());
             console.log(units)
+            var dose=$('p#daily_dose_' + x + '_' + msfcode).text();
 
-            estimate=estResults(netPatients(numpatients, duration, monincrease),duration, frequency, units);                 
+            estimate=estResults(netPatients(numpatients, duration, monincrease),duration, frequency, units, dose);                 
             console.log(estimate);
 
             results.eq(i-1).text(estimate);

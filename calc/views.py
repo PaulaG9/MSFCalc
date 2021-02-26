@@ -60,15 +60,16 @@ def resultsView(request):
             
             try:
                 for i in range(len(tlines)):
-                    numpatients=int(other_context['num_patients_'+str(tlines[i])+'_'+item.msf_code])
+                    numpatients=float(other_context['num_patients_'+str(tlines[i])+'_'+item.msf_code])
                     duration=int(other_context['duration_'+str(tlines[i])])
                     monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
                     # attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
                     #print(numpatients, duration, monincrease,frequency)
-                    units=int(other_context['unit_per_patient_'+str(tlines[i])+'_'+item.msf_code])
+                    units=float(other_context['unit_per_patient_'+str(tlines[i])+'_'+item.msf_code])
+                    dose=item.daily_recommended_dose
                    
-                    estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency, units) 
+                    estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency, units, dose) 
 
             except ValueError as e:
                 print (e)
