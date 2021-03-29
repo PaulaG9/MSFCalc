@@ -11,14 +11,31 @@
     
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src={% static "js/resultsPreview.js" %}></script>
     <script src={% static "js/enableAnimation.js" %}></script>
     <div class="row">
 
         <form method="POST" action="{% url 'calc:results' %}">
             {% csrf_token %}
-            {% for item in queryset %}            
+            <div class="row">  
+                <div class="col-md-1"></div>                    
+                <div class="col-md-10">
+                    <div class="card border-dark">            
+                        <div class="row">
+                            <div class=col-md-11></div>
+                            <div class="col-md-1">
+                                <button class="btn btn-md btn-success" value="Next" name="estimate">
+                                    Next
+                                </button> 
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row"><p></p></div>               
+            {% for item in queryset %}                      
                 {% with forloop.counter|stringformat:"s" as ct %}
                     <div class="row">  
                         <div class="col-md-1"></div>                    
@@ -31,28 +48,19 @@
                                             <div class="col-md-7">
                                                 <div class="btn-group" role="group" aria-label="TopButtons">
                                                 
-                                                    <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#{{contentid}}" aria-expanded="true" aria-controls={{contentid}}>
-                                                        Collapse
+                                                    <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#{{contentid}}" aria-expanded="true" aria-controls={{contentid}}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-contract" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707zM15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707z"/>
+                                                          </svg>
                                                     </button>
                                                 
-                                                    <button type="button" class="btn btn-md btn-outline-dark" data-toggle="popover" data-trigger="focus" title={{item.t_name}} data-content="Details about treatment line" data-placement="top">
+                                                    <button type="button" class="btn btn-md btn-outline-dark text-success" data-bs-toggle="popover" data-bs-trigger="focus" title={{item.t_name}} data-bs-content="Details about treatment line" data-bs-placement="auto">
                                                         {{item.t_name}}
-                                                    </button>                                                    
-                                                        
-                                                    <!-- <button type="button" class="btn btn-md btn-success" onclick="putPatients()" value="EstimatePatients" id="patients" name="patients">
-                                                        Estimate Patients
-                                                    </button> -->
-                                                
-                                                    <!-- <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
-                                                        Calculate
-                                                    </button>                                       -->
+                                                    </button>    
                                                 
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md-4"></div>
-                                            <div class="col-md-1">
-                                                <button class="btn btn-md btn-success" value="Next step" name="estimate">Next</button>
-                                            </div> -->
+                                           
                                         </div>                                    
                                         <div class="row"><p></p></div>
                                         <div class="row">
@@ -84,7 +92,7 @@
                                                                     {{forecast_form.monthly_increase.label_tag}}
                                                                 </label>
                                                             </div>
-                                                            <input type="number" style="height:auto" class="form-control" id={{mthname}} min=0 name={{mthname}} data-toggle="tooltip" data-placement="top" title="What number of patients do you expect over the initial number of patients">
+                                                            <input type="number" style="height:auto" class="form-control" id={{mthname}} min=0 name={{mthname}} data-bs-toggle="tooltip" data-bs-placement="top" title="What number of patients do you expect over the initial number of patients">
                                                         </div>
                                                         {% endwith %}
                                                     </div>
@@ -97,13 +105,17 @@
                                                         {% with "patients_in_cohort_"|add:ct as chname %}
                                                         <div class="input-group bg-light">
                                                             <div class="input-group-prepend">
-                                                                <button type="button" class="btn btn-md btn-light btn-outline-dark" data-toggle="tooltip" title="click me to see patient distribution" onclick="putPatients()" value="EstimatePatients" id={{chname}} name="patients">
-                                                                    <!-- <label class="input-group-text" for={{chname}}> -->
-                                                                        {{forecast_form.patients_in_cohort.label_tag}}
-                                                                    <!-- </label> -->
-                                                                </button>
+                                                                <label class="input-group-text" for={{chname}}>
+                                                                    {{forecast_form.patients_in_cohort.label_tag}}
+                                                                </label>                                                                
                                                             </div>
                                                             <input type="number" style="height:auto" class="form-control" id={{chname}} min=0 name={{chname}}>
+                                                            <button type="button" class="btn btn-md btn-light btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Click me to see patient distribution" onclick="putPatients()" value="EstimatePatients" id={{chname}} name="patients">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calculator" viewBox="0 0 16 16">
+                                                                    <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+                                                                    <path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z"/>
+                                                                  </svg>
+                                                            </button>
                                                         </div>
                                                         {% endwith %}
                                                     </div>
@@ -119,7 +131,8 @@
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-2">MSF Code</div>
-                                                        <div class="col-md-4">Description</div>
+                                                        <div class="col-md-3">Description</div>
+                                                        <div class="col-md-1">Packaging</div>
                                                         <div class="col-md-1">Rec Dose</div>
                                                         <div class="col-md-1">Patient Ratio</div>
                                                         <div class="col-md-1">{{forecast_form.unit_per_patient.label_tag}} </div>
@@ -140,9 +153,17 @@
                                                                 {{y.msf_code}}
                                                             </div>
 
-                                                            <div class="col-md-4">
-                                                                {{y.supply_name}}
-                                                            </div>  
+                                                            <div class="col-md-3">
+                                                                {{y.get_description}}
+                                                            </div>
+                                                            
+                                                            <div class="col-md-1">
+                                                                {% with "package_"|add:ct|add:"_"|add:y.msf_code as package %} 
+                                                                    {% if y.get_packaging %}                                                               
+                                                                        <p name={{package}} id={{package}}>{{y.get_packaging}}</p>  
+                                                                    {% endif %}                                                              
+                                                                {% endwith %}                                                               
+                                                            </div>                                                            
 
                                                             <div class="col-md-1">
                                                                 {% with "daily_dose_"|add:ct|add:"_"|add:y.msf_code as ddose %} 
@@ -198,18 +219,11 @@
                                             </div> 
                                             <div class="row"><p></p></div>
                                             <div class="row">
-                                                <div class="col-md-10"></div>
-                                                <div class="col-md-2">
-                                                    <div class="btn-group" role="group" aria-label="BottomButtons">
-
-                                                        <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
-                                                            Calculate
-                                                        </button>      
-                                                        <button class="btn btn-md btn-dark" value="Next step" name="estimate">
-                                                            Next Step
-                                                        </button>                                                                   
-                                                    
-                                                    </div>
+                                                <div class="col-md-11"></div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
+                                                        Calculate
+                                                    </button> 
                                                 </div>
                                             </div>
                                                     
@@ -223,7 +237,21 @@
                     <div><p></p></div>  
                 {% endwith %}                         
             {% endfor %}
-                          
+            <div class="row">  
+                <div class="col-md-1"></div>                    
+                <div class="col-md-10">
+                    <div class="card border-dark">            
+                        <div class="row">
+                            <div class=col-md-11></div>
+                            <div class="col-md-1">
+                                <button class="btn btn-md btn-dark" value="Next" name="estimate">
+                                    Next
+                                </button> 
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>              
         </form> 
        
     </div>    

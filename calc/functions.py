@@ -5,14 +5,15 @@ def getNetPatients(numpatients, duration, monincrease):
                 final_mth_patients=numpatients+(round(duration/30)-1)*monincrease
                 net_patients=((numpatients+final_mth_patients)*round(duration/30))/2
             else:
-                net_patients=numpatients+monincrease            
+                net_patients=numpatients+monincrease   
+                         
             return net_patients
 
-def getEstimate(net_patients, duration, frequency, units, dose):
-            if not dose or 'ml' not in dose:
-                estimate=str(net_patients * duration * frequency * units) + ' tab'               
+def getEstimate(net_patients, duration, frequency, units, packaging, packaging_size):
+            if packaging=='bottle':
+                estimate=(net_patients * duration * frequency * units* 5)/packaging_size               
             else:
-                estimate=str(net_patients * duration * frequency * units * 5) + ' ml'       
+                estimate=(net_patients * duration * frequency * units)
 
             return estimate
 

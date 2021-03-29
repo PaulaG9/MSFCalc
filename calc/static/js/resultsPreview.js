@@ -8,16 +8,16 @@ function netPatients(numpatients, duration, monincrease){
     return net_patients;
 }
 
-function estResults(net_patients, duration, frequency, units, dose){
-    if(dose.includes('ml')){
-        est_results=net_patients * duration * frequency * units* 5;
+function estResults(net_patients, duration, frequency, units, packaging, packaging_size){
+    if(packaging=='bottle'){
+        est_results=(net_patients * duration * frequency * units* 5)/packaging_size;
         if(est_results){
-            return (est_results+ ' ml');
+            return (est_results+ ' bottles');
         }        
     }else{
         est_results=net_patients * duration * frequency * units;
         if(est_results){
-            return ( est_results+ ' tab');
+            return ( est_results+ ' ' + packaging + 's');
         }        
     }    
 }
@@ -28,7 +28,7 @@ function getPreview(){
     
     for (var x=1; x<formInst.length+1; x++){
         
-        var duration=parseInt($('input#duration_' +x).val()); 
+        var duration=parseInt($('input#duration_' +x).val())*30; 
         console.log(duration);
         var monincrease=parseInt($('input#monthly_increase_' +x).val()); 
         console.log(monincrease);
@@ -43,9 +43,12 @@ function getPreview(){
             console.log(numpatients);   
             var units=parseFloat($('input#unit_per_patient_'+ x + '_' + msfcode).val());
             console.log(units)
-            var dose=$('p#daily_dose_' + x + '_' + msfcode).text();
+            var packaging=$('p#package_' + x + '_' + msfcode).text().split(' ')[2];
+            console.log(packaging)
+            var packaging_size=$('p#package_' + x + '_' + msfcode).text().split(' ')[0]
+            console.log(packaging_size)
 
-            estimate=estResults(netPatients(numpatients, duration, monincrease),duration, frequency, units, dose);                 
+            estimate=estResults(netPatients(numpatients, duration, monincrease),duration, frequency, units, packaging, packaging_size);                 
             console.log(estimate);
 
             results.eq(i-1).text(estimate);

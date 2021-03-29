@@ -1,13 +1,19 @@
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-
-$(function () {
-    $('[data-toggle="popover"]').popover()
+$(function(){
+var tooltipTriggerList = [].slice.call($('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 })
 
-$('.popover-dismiss').popover({
-    trigger: 'focus'
-  })
+$(function(){
+var popoverTriggerList = [].slice.call($('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  return new bootstrap.Popover(popoverTriggerEl)
+})
+})
 
-$('.collapse').collapse()
+$(function(){
+var popover = new bootstrap.Popover($('.popover-dismiss'),{
+  trigger: 'focus'
+})
+})

@@ -30,84 +30,114 @@
    
     <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-5">
-            <div class="container">
-                <div class="row">
-                    <h6 class="display-md-2">
-                        <strong>Estimate Medical Supplies</strong>                         
-                    </h6>
-                    <br>     
-                    <p>
-                        To start your estimation start by typing the name of the NCD in the box below. After you've decided on the NCD press next.
-                    </p>           
-                    <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid et molestias voluptate perspiciatis asperiores nobis voluptatum beatae temporibus, veritatis sed doloribus unde, nulla, magnam molestiae saepe iure reiciendis nisi optio!</p> -->
+        <div class="col-md-10">
+            <div class="card border-dark">
+                <div class="card-header bg-white">                    
+                        <strong>Estimate Medical Supplies</strong> 
+                </div>   
+                <div class="card-body">
+                    <div class="row">
+                        <p>Determining how many medicines to order in advance is fundamental to designing an intervention and ultimately managing an effective health program. Also, successfully planning medication quantities needed for programs that are scaling up the provision of services can be proven challenging. 
+                        </p>
+                        <br>
+                        <p>
+                            MSFCalc has been designed to facilitate medication order planning by providing a systematic approach to calculating medication requirements. Using disease morbidity patterns, MSFCalc allows to adjust patient population numbers, patient scaling-up rates and time during quantification without the need to recalculate.
+                        </p>
+                    </div>
+                    <div class="row"><p></p></div>
+                    <div class="row">
+                        <form action="{% url 'calc:forecast' %}" method="POST">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                    <!-- <div class="row">    -->
+                                        <!-- <div class="col-md-1"></div> -->
+                                        <!-- <div class="col-md-10">  -->
+                                            <!-- <div class="card"> -->
+                                                <!-- <div class="card-header"> -->
+                                                    <!-- <div class="input-group"> -->
+                                                        <strong>{{form.disease_search.label_tag}}</strong>
+                                                        <!-- </div> -->
+                                                        <!-- <div class="card-body"> -->
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                {{form.disease_search.help_text}}
+                                                            </div>                                        
+                                                        </div>
+                                                        <div class="row"> 
+                                                            <div class="col-md-11">
+                                                                {{form.disease_search}}
+                                                                
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <input type="submit" value="Next" class="btn btn-md btn-success"/>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    <!-- </div> -->
+                                                    
+                                                <!-- </div> -->
+                                            <!-- </div> -->
+                                           
+                                            
+                                        <!-- </div>  -->
+                                    <!-- </div> -->
+                                   
+                                </div>
+                        </form>
+                    </div>                    
+                </div>         
+               
+            </div> 
+            
+        </div>
+    </div>
+    <div class="row"><p></p></div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="card border-dark">
+                <div class="card-header bg-white">
+                    <strong>Diabetes intro</strong>                         
                 </div>
-                <form action="{% url 'calc:forecast' %}" method="POST">
-                    {% csrf_token %}
-                        <div class="form-group">
-                            <div class="row">   
-                                <div class="col-md-10"> 
-                                    <div class="row">
-                                        <strong>{{form.disease_search.label_tag}}</strong>
-                                    </div>
-                                    <div class="row">
-                                        {{form.disease_search.help_text}}
-                                    </div>
-                                    <div class="row"> 
-                                        <div class="col-md-8">
-                                            {{form.disease_search}}
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="submit" value="Next" class="btn btn-md btn-secondary"/>                                        
-                                        </div>   
-                                    </div>
-                                </div> 
-                            </div>
-                            <!-- <div class="row">
-                                <div class="col-md-10"></div>
-                                <div class="col-md-2">
-                                    <input type="submit" value="Estimate" class="btn btn-md btn-secondary"/>
-                                </div> 
-                            </div> -->
-                        </div>
-                </form>
-                <!-- <form action="{% url 'home:home' %}" method="get">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div class="row">   
-                            <div class="col-md-10"> 
-                                <div class="row">
-                                    <strong>{{countryform.country_search.label_tag}}</strong>
-                                </div>
-                                <div class="row">
-                                    {{countryform.country_search.help_text}}
-                                </div>
-                                <div class="row">
-                                    {{countryform.country_search}}
-                                </div>
-                            </div>                                                       
+                <div class="card-body">
+                    <div class="row">
+                        <p>
+                            Non-communicable diseases (NCDs) make the largest contribution to mortality both globally and in the majority of low- and middle- income countries (LMICs). Worldwide, NCDs account for 60% (35 million) of global deaths. When we talk about NCDs throughout MSF, what are we referring to? We tend to use the term ‘NCDs’ to refer to those chronic conditions that represent the highest burden of disease: hypertension and cardiovascular disease, chronic respiratory disease (asthma and COPD), diabetes and hypothyroidism, epilepsy, and cancer. 
+                        </p>
+                        <br>
+                        <p>
+                            Diabetes is a chronic disease that occurs either when the pancreas does not produce enough insulin or when the body cannot effectively use the insulin it produces. Hyperglycaemia is a common effect of uncontrolled diabetes and over time leads to serious damage to many of the body's systems, especially the nerves and blood vessels. 
+                        </p>
+                        <br>
+                        <p>
+                            In 2014, 8.5% of adults aged 18 years and older had diabetes. In 2016, diabetes was the direct cause of 1.6 million deaths and in 2012 high blood glucose was the cause of another 2.2 million deaths. 
+                        </p>
+                        <br>
+                        <p>
+                            Between 2000 and 2016, there was a 5% increase in premature mortality from diabetes. In high-income countries the premature mortality rate due to diabetes decreased from 2000 to 2010 but then increased in 2010-2016. In lower-middle-income countries, the premature mortality rate due to diabetes increased across both periods. 
+                        </p>
+                        <br>
+                        <p>
+                        Diabetes can be treated, and its consequences avoided or delayed with diet, physical activity, medication and regular screening and treatment for complications. 
+                        </p>
+                    </div>
+                   <div class="row"><p></p></div>
+                   <div class="row">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://ourworldindata.org/grapher/diabetes-prevalence" loading="lazy" style="width: 100%; height:350px"></iframe>
                         </div>
                     </div>
-                </form>    -->
-            </div> 
-        </div>
-        <div class="col-md-5">
-            <div class="container">
-                <h6 class="display-md-2">
-                    <strong>Guidelines for estimating patient numbers</strong>                         
-                </h6>
-                <br>
-                    <p>
-                       This is based on MSF NCD advisor best guesses using diabetes data from Jordan. Please make sure you check these numbers before assuming they're correct. Thank you.
-                    </p>
-                
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://ourworldindata.org/grapher/diabetes-prevalence" loading="lazy" style="width: 100%; height:350px"></iframe>
                 </div>
+                    
             </div>
         </div>
-        <div class="col-md-1"></div>
-    </div>  
+    </div>
+        
+                
+     
+    
+    <div class="row"><p></p></div>
+    <div class="row"><p></p></div>
     
     
     {{ form.media.js }}

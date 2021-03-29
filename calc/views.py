@@ -23,7 +23,7 @@ def calculatorView(request):
         
         try:           
             queryset=TreatmentLine.objects.filter(tline_disease__in=[search_item]).order_by('tline_id')        
-            supply_qset=Supply.objects.all().order_by('supply_id')
+            supply_qset=list(Supply.objects.all().order_by('msf_code'))
         except ObjectDoesNotExist:
             queryset=[]
               
@@ -54,6 +54,7 @@ def resultsView(request):
         for item in supply_list:        
             tlines=[]
             estimate=0
+            fmc=0
             for key in other_context.keys():                
                 if item.msf_code in key:
                    tlines.append(key.split('_')[len(key.split('_'))-2])
@@ -61,26 +62,30 @@ def resultsView(request):
             try:
                 for i in range(len(tlines)):
                     numpatients=float(other_context['num_patients_'+str(tlines[i])+'_'+item.msf_code])
-                    duration=int(other_context['duration_'+str(tlines[i])])
+                    duration=int(other_context['duration_'+str(tlines[i])])*30 
                     monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
                     # attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
                     #print(numpatients, duration, monincrease,frequency)
                     units=float(other_context['unit_per_patient_'+str(tlines[i])+'_'+item.msf_code])
-                    dose=item.daily_recommended_dose
+                    packaging=item.get_packaging_presentation_display()
+                    packaging_size=int(item.packaging_size.split(' ')[0])
                    
-                    estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency, units, dose) 
+                    estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency, units, packaging, packaging_size) 
+                    fmc=estimate/(duration/30)
 
             except ValueError as e:
                 print (e)
                 next
 
-            supply_est[item.msf_code]=estimate     
+            supply_est[item.msf_code]=[estimate,fmc]  
        
 
-        df1 = read_frame(supply_list, fieldnames=['msf_code', 'supply_name', 'unit']) 
-        df2=pd.DataFrame(list(supply_est.items()), columns=['msf_code', 'estimated_needs'])
-        df3=df1.join(df2.set_index('msf_code'), on='msf_code')
+        df1 = read_frame(supply_list, fieldnames=['msf_code', 'supply_name', 'packaging_presentation']) 
+        df1.set_index('msf_code', inplace=True)
+        df2=pd.DataFrame.from_dict(supply_est, columns=['estimated_needs', 'fmc'], orient='index')
+        #df2=pd.DataFrame(list(supply_est.items()), columns=['msf_code', 'estimated_needs'])
+        df3=df1.join(df2)
         print(df1, df2, df3)
 
        
@@ -99,7 +104,7 @@ def tableExport(request):
     df=pd.DataFrame(request.session['dt'])
     
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="Test.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="Diabetes Order.xlsx"'
 
     df.to_excel(response,index=False)
     return response
