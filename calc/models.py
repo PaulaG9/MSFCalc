@@ -41,35 +41,49 @@ class Supply(models.Model):
     msf_code=models.CharField(max_length=50, verbose_name='MSF Code', null=True, blank=True)
     supply_name=models.CharField(max_length=10000, null=True, verbose_name='Description')
     disease_supply=models.ManyToManyField(Disease, verbose_name='Condition')
-    #frequency=models.FloatField(default=1)
+    supply_frequency=models.CharField(max_length=10, blank=True, null=True, choices=[("0", "None"),("1", "1 x day"), ("2","2 x day"), ("3","3 x day"), ("4", "4 x day"), ("5", "5 x day")])
     #attrition_rate=models.FloatField(default=0)
-    min_dosage=models.FloatField(null=True, blank=True)
-    max_dosage=models.FloatField(null=True, blank=True)
-    #num_patients=models.FloatField(verbose_name='Number of Patients', default=1)
+    daily_recommended_dose=models.CharField(max_length=10, null=True, blank=True)
+    patients_percentage=models.FloatField(verbose_name='Percentage of Patients', null=True, blank=True)
     essential_item=models.BooleanField(verbose_name='Essential NCD Item', null=True, blank=True)
     category=models.CharField(max_length=10000, choices=[('1','Medication'), ('2','Medical Equipment'), ('3','Medical Consumables'), ('4', 'Lab Equipment'), ('5','Lab Consumables')], blank=True, null=True)
     comments=models.CharField(max_length=10000, blank=True)
-    unit=models.CharField(max_length=7, blank=True, choices=[('mg', 'mg'), ('tab','tab'), ('ampules', 'ampules'), ('vial', 'vial'), ('ml', 'ml')] )
-    
+    unit=models.CharField(max_length=7, blank=True, choices=[('1', 'mg'), ('2', 'ml')] )
+    packaging_presentation=models.CharField(max_length=10, blank=True, null=True, choices=[('1', 'tablet'), ('2', 'ampule'), ('3', 'vial'), ('4','bottle')])
+    packaging_size=models.CharField(max_length=15, verbose_name='Packaging', null=True, blank=True)
+    #supply_strength=models.CharField(max_length=10, verbose_name='Supply Strength', null=True, blank=True)
     
     class Meta:
         verbose_name_plural='Supplies'
 
     def __str__(self):
-        return str(self.supply_name)
-  
+        return str(self.supply_name.strip())
+
+    def get_packaging(self):
+        if self.packaging_size:
+            return (str(self.packaging_size) + ' ' + self.get_packaging_presentation_display())
+        else:
+            pass   
+    
+    get_packaging.short_description='Package'
+
+    def get_description(self):
+        description=self.supply_name
+        return description
+    
 
 class TreatmentLine(models.Model):
     tline_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tline_disease=models.ForeignKey(Disease, verbose_name='Condition', on_delete=models.PROTECT)
     tline_name=models.CharField(max_length=10000, null=True, verbose_name='Treatment Line Name')    
     tline_supply=models.ManyToManyField(Supply, verbose_name='Supply')
+    tline_description=models.CharField(max_length=10000, null=True, verbose_name='Description')
 
     def __str__(self):
         return str(self.tline_name)
 
     def get_supplies(self):
-        return [supply.supply_name for supply in self.tline_supply.all()]
+        return [supply.supply_name for supply in self.tline_supply.all().order_by('msf_code')]
     get_supplies.short_description='Supplies'
     
     def t_name(self):

@@ -7,7 +7,7 @@ admin.site.register(Disease)
 
 @admin.register(Supply)
 class SupplyAdmin(admin.ModelAdmin):
-    list_display=['msf_code','supply_name','essential_item']
+    list_display=['msf_code','supply_name','essential_item', 'packaging_presentation']
     
 
 @admin.register(TreatmentLine)

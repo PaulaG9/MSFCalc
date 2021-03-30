@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load mathfilters %}
 {% block content %}
 <head>
     <title>Forecast</title>
@@ -7,164 +8,252 @@
     <style>
         input, select {width: 100%}
     </style>
+    
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src={% static "js/resultsPreview.js" %}></script>
+    <script src={% static "js/enableAnimation.js" %}></script>
     <div class="row">
-       
-            <div class="col-md-10"></div> 
-            <div class="col-md-1">
-                <input type="submit" class="btn btn-md btn-primary" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
-                <p></p>
-            </div> 
-        <div class="row">
-            <form method="POST" action="{% url 'calc:results' %}">
+
+        <form method="POST" action="{% url 'calc:results' %}">
             {% csrf_token %}
-            {% for item in queryset %}            
+            <div class="row">  
+                <div class="col-md-1"></div>                    
+                <div class="col-md-10">
+                    <div class="card border-dark">            
+                        <div class="row">
+                            <div class=col-md-11></div>
+                            <div class="col-md-1">
+                                <button class="btn btn-md btn-success" value="Next" name="estimate">
+                                    Next
+                                </button> 
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row"><p></p></div>               
+            {% for item in queryset %}                      
                 {% with forloop.counter|stringformat:"s" as ct %}
                     <div class="row">  
-                        <div class="col-md-1"></div>                      
+                        <div class="col-md-1"></div>                    
                         <div class="col-md-10">
-                            <div class="card">
-                                <div class="card-header bg-white">
-                                    <div class="row">
-                                        
-                                        <div class="col-md-3">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="input-group-text">
-                                                        {{item.t_name}}
-                                                    </label>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>   
-                                       
-                                        <div class="col-md-3">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    {% with "duration_"|add:ct as dname %}
-                                                    <div class="input-group bg-light">
-                                                        <div class="input-group-prepend">
-                                                            <label class="input-group-text" id={{dname}} >
-                                                                {{forecast_form.duration.label_tag}}
-                                                            </label>
-                                                        </div> 
-                                                        <input type="number" style="height:auto" class="form-control" min=0 name={{dname}} id={{dname}}>
-                                                    </div>
-                                                    {% endwith %}
-                                                </div>
-                                            </div>
-                                        </div>                                      
-                                        
-                                        <div class="col-md-3">
-                                            <div class="row">
-                                                <div class="col-md-12"> 
-                                                    {% with "monthly_increase_"|add:ct as mthname %}
-                                                    <div class="input-group bg-light">
-                                                        <div class="input-group-prepend">
-                                                            <label class="input-group-text" for={{mthname}}>
-                                                                {{forecast_form.monthly_increase.label_tag}}
-                                                            </label>
-                                                        </div>
-                                                        <input type="number" style="height:auto" class="form-control" id={{mthname}} min=0 name={{mthname}} data-toggle="tooltip" data-placement="top" title="What number of patients do you expect over the initial number of patients">
-                                                    </div>
-                                                    {% endwith %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-2">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    {% with "app_all_"|add:ct as appname %}
-                                                    <div class="input-group bg-light">
-                                                        <div class="input-group-prepend">
-                                                            <label class="input-group-text" for={{appname}}>Apply to all</label>
-                                                        </div>
-                                                        <input type="checkbox" class="form-control" id={{appname}} name={{appname}}>
-                                                    </div>                                                    
-                                                    {% endwith %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                                             
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                   
+                            <div class="card border-dark">
+                                {% with "content_"|add:ct as contentid %}
+                                    <div class="card-header bg-white">
+                                            
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-2">MSF Code</div>
-                                                    <div class="col-md-4">Description</div>
-                                                    <div class="col-md-1">Unit</div>
-                                                    <div class="col-md-2">{{forecast_form.num_patients.label_tag}} </div>
-                                                    <div class="col-md-2">{{forecast_form.frequency.label_tag}}</div>
-                                                    <div class="col-md-1">Total</div>
+                                            <div class="col-md-7">
+                                                <div class="btn-group" role="group" aria-label="TopButtons">
+                                                
+                                                    <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#{{contentid}}" aria-expanded="true" aria-controls={{contentid}}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-contract" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707zM15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707z"/>
+                                                          </svg>
+                                                    </button>
+                                                
+                                                    <button type="button" class="btn btn-md btn-outline-dark text-success" data-bs-toggle="popover" data-bs-trigger="focus" title={{item.t_name}} data-bs-content={{item.tline_description}} data-bs-placement="auto">
+                                                        {{item.t_name}}
+                                                    </button>    
+                                                
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">                                             
-                                            {% for x in item.get_supplies %}                            
-                                            <div class="col-md-12"> 
-                                                {% for y in supplyqset%} 
-                                                    {% if y.supply_name == x %}
-                                                    <div class="row">
-                                                        <div class="col-md-2"> 
-                                                            {{y.msf_code}}
+                                           
+                                        </div>                                    
+                                        <div class="row"><p></p></div>
+                                        <div class="row">
+                                            
+                                            <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        {% with "duration_"|add:ct as dname %}
+                                                        <div class="input-group bg-light">
+                                                            <div class="input-group-prepend">
+                                                                <label class="input-group-text" id={{dname}} >
+                                                                    {{forecast_form.duration.label_tag}}
+                                                                </label>
+                                                            </div> 
+                                                            <input type="number" style="height:auto" class="form-control" min=0 name={{dname}} id={{dname}}>
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            {{y.supply_name}}
-                                                        </div>    
-                                                        <div class="col-md-1">
-                                                            {{y.unit}} 
-                                                        </div>  
-
-                                                        <div class="col-md-2">
-                                                            {% with "num_patients_"|add:ct|add:"_"|add:y.msf_code as fname %}
-                                                            <input type="number" min=0 name={{fname}} id={{fname}} placeholder=50>
-                                                            {% endwith %}
+                                                        {% endwith %}
+                                                    </div>
+                                                </div>
+                                            </div>                                      
+                                            
+                                            <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-md-12"> 
+                                                        {% with "monthly_increase_"|add:ct as mthname %}
+                                                        <div class="input-group bg-light">
+                                                            <div class="input-group-prepend">
+                                                                <label class="input-group-text" for={{mthname}}>
+                                                                    {{forecast_form.monthly_increase.label_tag}}
+                                                                </label>
+                                                            </div>
+                                                            <input type="number" style="height:auto" class="form-control" id={{mthname}} min=0 name={{mthname}} data-bs-toggle="tooltip" data-bs-placement="top" title="What number of patients do you expect over the initial number of patients">
                                                         </div>
-                                                        
-                                                        <div class="col-md-2"> 
-                                                            {% with "frequency_"|add:ct|add:"_"|add:y.msf_code as frname %}
-                                                            
-                                                            <select name={{frname}} id={{frname}}>
-                                                                {% for opt, text in forecast_form.frequency.field.choices %}
-                                                                <option value={{opt}}>{{text}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                            {% endwith %}                                                                                                                                           
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            {% with "result_"|add:ct|add:"_"|add:y.msf_code as resultid %}
-                                                            <p name={{resultid}} id={{resultid}} style="font-weight: bold;"></p>
-                                                            {% endwith %}                                                                        
-                                                        </div>
-                                                    </div>                                 
-                                                    {% endif %}
-                                                {% endfor %}                                            
+                                                        {% endwith %}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            {% endfor %}
-                                        </div> 
-                                             
-                                </div>
+
+                                            <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-md-12"> 
+                                                        {% with "patients_in_cohort_"|add:ct as chname %}
+                                                        <div class="input-group bg-light">
+                                                            <div class="input-group-prepend">
+                                                                <label class="input-group-text" for={{chname}}>
+                                                                    {{forecast_form.patients_in_cohort.label_tag}}
+                                                                </label>                                                                
+                                                            </div>
+                                                            <input type="number" style="height:auto" class="form-control" id={{chname}} min=0 name={{chname}}>
+                                                            <button type="button" class="btn btn-md btn-light btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Click me to see patient distribution" onclick="putPatients()" value="EstimatePatients" id={{chname}} name="patients">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calculator" viewBox="0 0 16 16">
+                                                                    <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+                                                                    <path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z"/>
+                                                                  </svg>
+                                                            </button>
+                                                        </div>
+                                                        {% endwith %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                        
+                                        </div>
+                                    </div>
+                                    <div class="collapse show" id={{contentid}}>
+                                        <div class="card-body">
+                                        
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2">MSF Code</div>
+                                                        <div class="col-md-3">Description</div>
+                                                        <div class="col-md-1">Packaging</div>
+                                                        <div class="col-md-1">Rec Dose</div>
+                                                        <div class="col-md-1">Patient Ratio</div>
+                                                        <div class="col-md-1">{{forecast_form.unit_per_patient.label_tag}} </div>
+                                                        <div class="col-md-1">{{forecast_form.num_patients.label_tag}} </div>
+                                                        <div class="col-md-1">{{forecast_form.frequency.label_tag}}</div>
+                                                        <div class="col-md-1">Total</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">                                             
+                                                {% for x in item.get_supplies %}                            
+                                                <div class="col-md-12"> 
+                                                    {% for y in supplyqset%} 
+                                                        {% if y.supply_name == x %}
+                                                        <div class="row">
+
+                                                            <div class="col-md-2"> 
+                                                                {{y.msf_code}}
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                {{y.get_description}}
+                                                            </div>
+                                                            
+                                                            <div class="col-md-1">
+                                                                {% with "package_"|add:ct|add:"_"|add:y.msf_code as package %} 
+                                                                    {% if y.get_packaging %}                                                               
+                                                                        <p name={{package}} id={{package}}>{{y.get_packaging}}</p>  
+                                                                    {% endif %}                                                              
+                                                                {% endwith %}                                                               
+                                                            </div>                                                            
+
+                                                            <div class="col-md-1">
+                                                                {% with "daily_dose_"|add:ct|add:"_"|add:y.msf_code as ddose %} 
+                                                                    {% if y.daily_recommended_dose%}                                                               
+                                                                        <p name={{ddose}} id={{ddose}}>{{y.daily_recommended_dose}}</p>  
+                                                                    {% endif %}                                                              
+                                                                {% endwith %}                                                               
+                                                            </div>  
+
+                                                            <div class="col-md-1">
+                                                                {% with "patients_percentage_"|add:ct|add:"_"|add:y.msf_code as patratio %}
+                                                                    {% if y.patients_percentage %}
+                                                                    <p name={{patratio}} id={{patratio}}>{{y.patients_percentage|mul:100|stringformat:"s"|add:"%"}}</p>
+                                                                    {% endif %}
+                                                                {% endwith %}                                                            
+                                                            </div> 
+
+                                                            <div class="col-md-1">
+                                                                {% with "unit_per_patient_"|add:ct|add:"_"|add:y.msf_code as unitsname %}
+                                                                <input type="number" step="0.01" min=0 name={{unitsname}} id={{unitsname}} data-toggle="tooltip" data-placement="auto" title={{forecast_form.unit_per_patient.help_text}}>
+                                                                {% endwith %}
+                                                            </div>
+
+                                                            <div class="col-md-1">
+                                                                {% with "num_patients_"|add:ct|add:"_"|add:y.msf_code as fname %}
+                                                                <input type="number" step="0.01" min=0 name={{fname}} id={{fname}}>
+                                                                {% endwith %}
+                                                            </div>
+                                                            
+                                                            <div class="col-md-1"> 
+                                                                {% with "frequency_"|add:ct|add:"_"|add:y.msf_code as frname %}
+                                                                
+                                                                <select name={{frname}} id={{frname}}>
+                                                                    <option value={{y.supply_frequency}}>{{y.get_supply_frequency_display}}</option>
+                                                                    {% for opt, text in forecast_form.frequency.field.choices %}
+                                                                    <option value={{opt}}>{{text}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                {% endwith %}                                                                                                                                           
+                                                            </div>
+
+                                                            <div class="col-md-1">
+                                                                {% with "result_"|add:ct|add:"_"|add:y.msf_code as resultid %}
+                                                                <p name={{resultid}} id={{resultid}} style="font-weight: bold;"></p>
+                                                                {% endwith %}                                                                        
+                                                            </div>
+
+                                                        </div>                                 
+                                                        {% endif %}
+                                                    {% endfor %}                                            
+                                                </div>
+                                                {% endfor %}
+                                            </div> 
+                                            <div class="row"><p></p></div>
+                                            <div class="row">
+                                                <div class="col-md-11"></div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn btn-md btn-outline-dark text-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
+                                                        Calculate
+                                                    </button> 
+                                                </div>
+                                            </div>
+                                                    
+                                        </div>
+                                    </div>
+                                {% endwith %}                                
                             </div>
+                            
                         </div>   
                     </div> 
                     <div><p></p></div>  
                 {% endwith %}                         
             {% endfor %}
-                <div class="row">
-                    <div class="col-md-10"></div>
-                    <div class='col-md-1'>
-                        <input type="submit" class="btn btn-md btn-primary" value="Next Step" name="estimate">
-                    </div> 
-                </div>                
-            </form> 
-        </div>
+            <div class="row">  
+                <div class="col-md-1"></div>                    
+                <div class="col-md-10">
+                    <div class="card border-dark">            
+                        <div class="row">
+                            <div class=col-md-11></div>
+                            <div class="col-md-1">
+                                <button class="btn btn-md btn-success" value="Next" name="estimate">
+                                    Next
+                                </button> 
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>              
+        </form> 
+       
     </div>    
       {{ form.media.js }}
 </body>

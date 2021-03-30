@@ -10,53 +10,45 @@
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <div class="container">
-        <div class="row">
-            <p>
-
-            </p>
-        </div>
-        
+        <div class="row"><p></p></div>      
         <div class="row">
             <div class=col-md-10></div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <form name="tableExport" action="/calc/export/" method="get">
-                    <input class="btn btn-success" type="submit" id="tableExport" name="tableExport" value="Export to Excel">
+                    <input class="btn btn-success" type="submit" id="tableExport" name="tableExport" value="Export">
                 </form>
             </div>
         </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <table class="table table-light table-striped table-responsive-md">
-                        <thead class="thead-dark">
-                            <tr> 
-                                <th scope="col">MSF Code</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Unit</th>
-                                <th scope="col">Estimated Needs</th>
-                            </tr>
-                        </thead>  
-                        <tbody>
-                            {% if d %}
-                                {% for i in d%}
-                                <tr>
-                                    <td>{{i.msf_code}}</td>
-                                    <td> {{i.supply_name}}</td>
-                                    <td>{{i.unit}}</td>
-                                    <td> {{i.estimated_needs}}</td>
-                                </tr>   
-                                {% endfor %}
-                            {% endif %}                 
-                        </tbody>                         
-                    </table> 
-                   
-                </div>                              
-            </div>
+        <div><p></p></div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <table class="table table-striped table-responsive-sm">
+                    <thead class="table-dark">
+                        <tr> 
+                            <th scope="col">MSF Code</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Packaging</th>
+                            <th scope="col">Estimated Needs</th>
+                            <th scope="col">FMC</th>
+                        </tr>
+                    </thead>  
+                    <tbody>
+                        {% if d %}
+                            {% for i in d%}
+                            <tr>
+                                <td>{{i.msf_code}}</td>
+                                <td>{{i.supply_name}}</td>
+                                <td>{{i.packaging_presentation}}</td>
+                                <td>{{i.estimated_needs}}</td>
+                                <td>{{i.fmc}}</td>
+                            </tr>   
+                            {% endfor %}
+                        {% endif %}                 
+                    </tbody>                         
+                </table> 
+            </div>  
         </div>
-
-    </div>
-    
-    
     {{ form.media.js }}
 </body>
 {% endblock content %}

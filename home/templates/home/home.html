@@ -7,114 +7,119 @@
         input, select {width: 100%}
     </style>
 </head>
-<style type="text/css">
-.home-page-styling{
-    margin:50px;
-    position:relative;
-}
-.jumbo-styling{
-    color:#EE0000;
-}
 </style>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
-              </div>            
-        </div>        
-    </div> -->
-   
     <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-5">
-            <div class="container">
-                <div class="row">
-                    <h6 class="display-md-2">
-                        <strong>Estimate Medical Supplies</strong>                         
-                    </h6>
-                    <br>     
-                    <p>
-                        To start your estimation start by typing the name of the NCD in the box below. After you've decided on the NCD press next.
-                    </p>           
-                    <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid et molestias voluptate perspiciatis asperiores nobis voluptatum beatae temporibus, veritatis sed doloribus unde, nulla, magnam molestiae saepe iure reiciendis nisi optio!</p> -->
-                </div>
-                <form action="{% url 'calc:forecast' %}" method="POST">
-                    {% csrf_token %}
-                        <div class="form-group">
-                            <div class="row">   
-                                <div class="col-md-10"> 
+        <div class="col-md-10">
+            <div class="card border-dark">
+                <div class="card-header bg-white">                    
+                        <strong>Estimate Medical Supplies</strong> 
+                </div>   
+                <div class="card-body">
+                    <div class="row">
+                        <p>Determining how many medicines to order in advance is fundamental to designing an intervention and ultimately managing an effective health program. Also, successfully planning medication quantities needed for programs that are scaling up the provision of services can be proven challenging. 
+                        </p>
+                        <br>
+                        <p>
+                            MSFCalc has been designed to facilitate medication order planning by providing a systematic approach to calculating medication requirements. Using disease morbidity patterns, MSFCalc allows to adjust patient population numbers, patient scaling-up rates and time during quantification without the need to recalculate.
+                        </p>
+                    </div>
+                    <div class="row"><p></p></div>
+                    <div class="row">
+                        <form action="{% url 'calc:forecast' %}" method="POST">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                    <strong>{{form.disease_search.label_tag}}</strong>
+                                                        
                                     <div class="row">
-                                        <strong>{{form.disease_search.label_tag}}</strong>
-                                    </div>
-                                    <div class="row">
-                                        {{form.disease_search.help_text}}
-                                    </div>
-                                    <div class="row"> 
                                         <div class="col-md-8">
-                                            {{form.disease_search}}
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="submit" value="Next" class="btn btn-md btn-secondary"/>                                        
-                                        </div>   
+                                            {{form.disease_search.help_text}}
+                                        </div>                                        
                                     </div>
-                                </div> 
+
+                                    <div class="row"> 
+                                        <div class="col-md-11">
+                                            {{form.disease_search}}                                            
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="submit" value="Next" class="btn btn-sm btn-success"/>
+                                        </div>                                        
+                                    </div>
+                                   
+                                </div>
+                        </form>
+                    </div>                    
+                </div>         
+               
+            </div>             
+        </div>
+    </div>
+    <div class="row"><p></p></div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="card border-dark">
+                <div class="card-header bg-white">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="btn-group" role="group" aria-label="TopButtons">
+                            
+                                <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHome" aria-expanded="false" aria-controls="collapseHome">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-contract" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707zM15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707z"/>
+                                      </svg>
+                                </button>
+                            
+                                <button type="button" class="btn btn-md btn-outline-dark text-success">
+                                   Diabetes Intro
+                                </button>    
+                            
                             </div>
-                            <!-- <div class="row">
-                                <div class="col-md-10"></div>
-                                <div class="col-md-2">
-                                    <input type="submit" value="Estimate" class="btn btn-md btn-secondary"/>
-                                </div> 
-                            </div> -->
                         </div>
-                </form>
-                <!-- <form action="{% url 'home:home' %}" method="get">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div class="row">   
-                            <div class="col-md-10"> 
-                                <div class="row">
-                                    <strong>{{countryform.country_search.label_tag}}</strong>
-                                </div>
-                                <div class="row">
-                                    {{countryform.country_search.help_text}}
-                                </div>
-                                <div class="row">
-                                    {{countryform.country_search}}
-                                </div>
-                            </div>                                                       
+                    </div>     
+                </div>
+
+                <div class="collapse" id="collapseHome">
+                    <div class="card-body">
+                        <div class="row">
+                            <p>
+                                Non-communicable diseases (NCDs) make the largest contribution to mortality both globally and in the majority of low- and middle- income countries (LMICs). Worldwide, NCDs account for 60% (35 million) of global deaths. When we talk about NCDs throughout MSF, what are we referring to? We tend to use the term ‘NCDs’ to refer to those chronic conditions that represent the highest burden of disease: hypertension and cardiovascular disease, chronic respiratory disease (asthma and COPD), diabetes and hypothyroidism, epilepsy, and cancer. 
+                            </p>
+                            <br>
+                            <p>
+                                Diabetes is a chronic disease that occurs either when the pancreas does not produce enough insulin or when the body cannot effectively use the insulin it produces. Hyperglycaemia is a common effect of uncontrolled diabetes and over time leads to serious damage to many of the body's systems, especially the nerves and blood vessels. 
+                            </p>
+                            <br>
+                            <p>
+                                In 2014, 8.5% of adults aged 18 years and older had diabetes. In 2016, diabetes was the direct cause of 1.6 million deaths and in 2012 high blood glucose was the cause of another 2.2 million deaths. 
+                            </p>
+                            <br>
+                            <p>
+                                Between 2000 and 2016, there was a 5% increase in premature mortality from diabetes. In high-income countries the premature mortality rate due to diabetes decreased from 2000 to 2010 but then increased in 2010-2016. In lower-middle-income countries, the premature mortality rate due to diabetes increased across both periods. 
+                            </p>
+                            <br>
+                            <p>
+                            Diabetes can be treated, and its consequences avoided or delayed with diet, physical activity, medication and regular screening and treatment for complications. 
+                            </p>
                         </div>
                     </div>
-                </form>    -->
-            </div> 
-        </div>
-        <div class="col-md-5">
-            <div class="container">
-                <h6 class="display-md-2">
-                    <strong>Guidelines for estimating patient numbers</strong>                         
-                </h6>
-                <br>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, sunt excepturi! Quas error possimus ipsam accusamus! Dicta eligendi fuga ratione iusto ipsa blanditiis, accusamus consequuntur maiores veritatis temporibus vel error!
-                    </p>
-                <br>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, animi soluta. Reiciendis corporis consequatur, veritatis illo dicta aperiam nostrum unde labore libero iste, quis hic vel laboriosam quod ipsum atque.
-                    </p>
-                <br>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi id ipsum esse perferendis, quos nostrum dolorem praesentium rem sequi, iusto numquam laboriosam maiores deserunt. Perferendis cupiditate doloribus fuga officiis aliquid.
-                    </p>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://ourworldindata.org/grapher/diabetes-prevalence" loading="lazy" style="width: 100%; height:350px"></iframe>
+                
+                   <div class="row"><p></p></div>
+                   <div class="row">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://ourworldindata.org/grapher/diabetes-prevalence" loading="lazy" style="width: 100%; height:350px"></iframe>
+                        </div>
+                    </div>
                 </div>
+                    
             </div>
         </div>
-        <div class="col-md-1"></div>
-    </div>  
+    </div>
+    <div class="row"><p></p></div>
+    <div class="row"><p></p></div>
     
     
     {{ form.media.js }}
