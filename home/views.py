@@ -13,3 +13,16 @@ def homeView(request):
         country_form=forms.CountrySearchForm()
 
     return render(request, 'home/home.html', {'form': form, 'countryform': country_form})
+
+def aboutView(request):
+    return render(request, 'home/about.html')
+
+def howtoView(request):
+    return render(request, 'home/howto.html')
+
+def faqView(request):
+    return render(request, 'home/faq.html')
+
+def contactView(request):
+    return render(request, 'home/contact.html')
+

@@ -54,7 +54,7 @@
                                                           </svg>
                                                     </button>
                                                 
-                                                    <button type="button" class="btn btn-md btn-outline-dark text-success" data-bs-toggle="popover" data-bs-trigger="focus" title={{item.t_name}} data-bs-content="Details about treatment line" data-bs-placement="auto">
+                                                    <button type="button" class="btn btn-md btn-outline-dark text-success" data-bs-toggle="popover" data-bs-trigger="focus" title={{item.t_name}} data-bs-content={{item.tline_description}} data-bs-placement="auto">
                                                         {{item.t_name}}
                                                     </button>    
                                                 
@@ -221,7 +221,7 @@
                                             <div class="row">
                                                 <div class="col-md-11"></div>
                                                 <div class="col-md-1">
-                                                    <button type="button" class="btn btn-md btn-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
+                                                    <button type="button" class="btn btn-md btn-outline-dark text-success" onclick="getPreview()" value="Calculate" id="calculate" name="calculate">
                                                         Calculate
                                                     </button> 
                                                 </div>
@@ -244,7 +244,7 @@
                         <div class="row">
                             <div class=col-md-11></div>
                             <div class="col-md-1">
-                                <button class="btn btn-md btn-dark" value="Next" name="estimate">
+                                <button class="btn btn-md btn-success" value="Next" name="estimate">
                                     Next
                                 </button> 
                             </div>

@@ -60,7 +60,10 @@ class Supply(models.Model):
         return str(self.supply_name.strip())
 
     def get_packaging(self):
-        return (str(self.packaging_size) + ' ' + self.get_packaging_presentation_display())   
+        if self.packaging_size:
+            return (str(self.packaging_size) + ' ' + self.get_packaging_presentation_display())
+        else:
+            pass   
     
     get_packaging.short_description='Package'
 
@@ -74,6 +77,7 @@ class TreatmentLine(models.Model):
     tline_disease=models.ForeignKey(Disease, verbose_name='Condition', on_delete=models.PROTECT)
     tline_name=models.CharField(max_length=10000, null=True, verbose_name='Treatment Line Name')    
     tline_supply=models.ManyToManyField(Supply, verbose_name='Supply')
+    tline_description=models.CharField(max_length=10000, null=True, verbose_name='Description')
 
     def __str__(self):
         return str(self.tline_name)
