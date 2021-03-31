@@ -22,7 +22,7 @@ def calculatorView(request):
         # search_item=request.POST.get('disease_search')
         
         try:           
-            queryset=TreatmentLine.objects.filter(tline_disease__in=[search_item]).order_by('tline_id')        
+            queryset=TreatmentLine.objects.filter(tline_disease__in=[search_item]).order_by('tline_name')        
             supply_qset=list(Supply.objects.all().order_by('msf_code'))
         except ObjectDoesNotExist:
             queryset=[]
@@ -68,9 +68,14 @@ def resultsView(request):
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
                     #print(numpatients, duration, monincrease,frequency)
                     units=float(other_context['unit_per_patient_'+str(tlines[i])+'_'+item.msf_code])
-                    packaging=item.get_packaging_presentation_display()
-                    if item.packaging_size:
-                        packaging_size=int(item.packaging_size.split(' ')[0])
+                    #packaging=item.get_packaging_presentation_display()
+                    print (item.get_packaging)
+                    if item.get_packaging:
+                        packaging=item.get_packaging_presentation_display()
+                        try:
+                            packaging_size=int(item.packaging_size.split(' ')[0])
+                        except:
+                            packaging_size=1
                     else:
                         pass
                    

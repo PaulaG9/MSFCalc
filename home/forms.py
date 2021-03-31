@@ -17,13 +17,13 @@ class SearchForm(forms.Form):
         )
     )
    
-class CountrySearchForm(forms.Form):
-    country_search=forms.ModelChoiceField(help_text="This should be your host country or the country where your target population comes from", required=False,
-            queryset=Country.objects.all().order_by('country_name'),
-            label='Target Country',
-            widget=s2forms.ModelSelect2Widget(
-                model=Country,
-                search_fields=['country_name__icontains'],
-            )
-        )
+# class CountrySearchForm(forms.Form):
+#     country_search=forms.ModelChoiceField(help_text="This should be your host country or the country where your target population comes from", required=False,
+#             queryset=Country.objects.all().order_by('country_name'),
+#             label='Target Country',
+#             widget=s2forms.ModelSelect2Widget(
+#                 model=Country,
+#                 search_fields=['country_name__icontains'],
+#             )
+#         )
 

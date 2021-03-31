@@ -60,11 +60,19 @@ class Supply(models.Model):
         return str(self.supply_name.strip())
 
     def get_packaging(self):
-        if self.packaging_size:
-            return (str(self.packaging_size) + ' ' + self.get_packaging_presentation_display())
+        if (self.packaging_size==None) & (self.get_packaging_presentation_display()==None):
+            self.packaging_size=1
+            self.packaging_presentation=''
+            return (str(self.packaging_size)  + ' ' + str(self.get_packaging_presentation_display()))
+        elif (self.packaging_size==None) & (self.get_packaging_presentation_display()!=None):
+            self.packaging_size=1
+            return (str(self.packaging_size)  + ' ' + str(self.get_packaging_presentation_display()))
+        elif (self.packaging_size!=None) & (self.get_packaging_presentation_display()==None): 
+            self.packaging_presentation=''
+            return (str(self.packaging_size)  + ' ' + str(self.get_packaging_presentation_display()))
         else:
-            pass   
-    
+            return (str(self.packaging_size)  + ' ' + str(self.get_packaging_presentation_display()))
+       
     get_packaging.short_description='Package'
 
     def get_description(self):

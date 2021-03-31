@@ -10,7 +10,9 @@ def getNetPatients(numpatients, duration, monincrease):
             return net_patients
 
 def getEstimate(net_patients, duration, frequency, units, packaging, packaging_size):
-            if packaging=='bottle':
+            if not packaging:
+                 estimate=(net_patients * duration * frequency * units)
+            elif packaging=='bottle':
                 estimate=(net_patients * duration * frequency * units* 5)/packaging_size               
             else:
                 estimate=(net_patients * duration * frequency * units)
