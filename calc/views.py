@@ -70,14 +70,15 @@ def resultsView(request):
                     units=float(other_context['unit_per_patient_'+str(tlines[i])+'_'+item.msf_code])
                     #packaging=item.get_packaging_presentation_display()
                     print (item.get_packaging)
-                    if item.get_packaging:
+                    # if item.get_packaging:                        
+                    try:
+                        packaging_size=int(item.packaging_size.split(' ')[0])
                         packaging=item.get_packaging_presentation_display()
-                        try:
-                            packaging_size=int(item.packaging_size.split(' ')[0])
-                        except:
-                            packaging_size=1
-                    else:
-                        pass
+                    except:
+                        packaging_size=1
+                        packaging=''
+                    # else:
+                    #     pass
                    
                     estimate=getEstimate(getNetPatients(numpatients, duration, monincrease),duration, frequency, units, packaging, packaging_size) 
                     fmc=estimate/(duration/30)
