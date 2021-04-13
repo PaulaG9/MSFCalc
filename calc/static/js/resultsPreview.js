@@ -30,7 +30,11 @@ function getPreview(){
         
         var duration=parseInt($('input#duration_' +x).val())*30; 
         console.log(duration);
-        var monincrease=parseInt($('input#monthly_increase_' +x).val()); 
+        if($('input#monthly_increase_' +x).val()==""){
+            var monincrease=parseInt($('input#monthly_increase_' +x).attr('placeholder'))
+        }else{
+            var monincrease=parseInt($('input#monthly_increase_' +x).val());
+        }        
         console.log(monincrease);
         var results=$('[id^=result_'+ x +']')
         for (var i=1; i<results.length+1; i++){ 

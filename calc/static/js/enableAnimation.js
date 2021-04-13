@@ -6,6 +6,14 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 })
 
 $(function(){
+  var tooltip=new bootstrap.Tooltip({
+      trigger: 'hover click focus',
+      container: 'body',
+      boundary: 'window'
+  })
+});
+
+$(function(){
 var popoverTriggerList = [].slice.call($('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)

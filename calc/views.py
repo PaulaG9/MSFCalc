@@ -63,7 +63,10 @@ def resultsView(request):
                 for i in range(len(tlines)):
                     numpatients=float(other_context['num_patients_'+str(tlines[i])+'_'+item.msf_code])
                     duration=int(other_context['duration_'+str(tlines[i])])*30 
-                    monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
+                    if other_context['monthly_increase_'+str(tlines[i])]=="":
+                        monincrease=0
+                    else:
+                        monincrease=int(other_context['monthly_increase_'+str(tlines[i])])
                     # attrrate=int(other_context['attrition_rate_'+str(tlines[i])])
                     frequency=int(other_context['frequency_'+str(tlines[i])+'_'+item.msf_code])
                     #print(numpatients, duration, monincrease,frequency)
